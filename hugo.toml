@@ -5,7 +5,6 @@ theme = 'yinyang'
 
 [permalinks]
   posts = "/posts/:slug/"
-
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
@@ -39,6 +38,9 @@ theme = 'yinyang'
   name = "Zhang Yang"
   email = 'email@turingzy.cn'
   homepage = "/about/"
+[[params.socials]]
+  name = "Home"
+  link = "https://turingzy.cn/"
 [[params.socials]]
   name = "Projects"
   link = "/projects/"

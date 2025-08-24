@@ -7,7 +7,7 @@ tags:
   - leetcode
   - hot-100
 ---
-# 哈希
+## 哈希
 ### [两数之和](https://leetcode.cn/problems/two-sum/)
 
 ```java
@@ -84,7 +84,7 @@ class Solution {
 
 - [题解](https://leetcode.cn/problems/longest-consecutive-sequence/solutions/3005726/ha-xi-biao-on-zuo-fa-pythonjavacgojsrust-whop/?envType=study-plan-v2&envId=top-100-liked)
 - 哈希去重，如果哈希表存在 x - 1，那么以 x - 1 开始的数字序列长度一定大于 x。
-# 双指针
+## 双指针
 ### [移动零](https://leetcode.cn/problems/move-zeroes/)
 
 ```java
@@ -207,7 +207,7 @@ class Solution {
 - 对于每一列可以接的雨水取决于左右两边最高的短木板减去当前木板高度（如下图所示）。
 
 ![](https://cdn.img.turingzy.cn/2025/Hot-100-0811.webp)
-# 滑动窗口
+## 滑动窗口
 ### [无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
 
 ```java
@@ -274,7 +274,7 @@ class Solution {
 - 定长滑动窗口
 - 通过`Arrays.equals()`来比较两个数组的值是否相等（只包含小写字母，比较耗时可忽略）。
 - 因为是先定好了窗口（第二个 for 循环）才开始比较，所以需要注意是否索引越界。
-# 子串
+## 子串
 ### [和为 K 的子数组](https://leetcode.cn/problems/subarray-sum-equals-k/)
 
 ```java
@@ -403,7 +403,7 @@ class Solution {
 - 遍历 s 字符串，当哈希表中对应字符的个数减到 0 时，表示子串（窗口内）已经满足特定字符的个数，所以 $need + 1$。
 - 当满足 $need=map.size()$ 时，该子串满足记录/收缩条件；比较字串长度来分别设置 minL、minR 索引。
 - 同理，当哈希表中对应字符的个数累加到 0 时，表明子串（窗口内）不再满足特定字符的个数，所以 $need - 1$。
-# 普通数组
+## 普通数组
 ### [最大子数组和](https://leetcode.cn/problems/maximum-subarray/)
 
 ```java
@@ -591,7 +591,7 @@ class Solution {
 - [题解](https://leetcode.cn/problems/first-missing-positive/solutions/304743/que-shi-de-di-yi-ge-zheng-shu-by-leetcode-solution/?envType=study-plan-v2&envId=top-100-liked)
 - `x=nums[i]`，如果 $x∈[1,N]$，我们就知道 x 应当出现在数组中的 x−1 的位置，因此交换 `nums[i]` 和 `nums[x−1]`
 - 如果 $nums[i]=nums[x−1]$，那么就会无限交换下去，因此控制交换条件 $nums[i]!=nums[x−1]$。
-# 矩阵
+## 矩阵
 ### [矩阵置零](https://leetcode.cn/problems/set-matrix-zeroes/)
 
 **解法一**
@@ -787,7 +787,7 @@ class Solution {
 
 - 根据题目要求，当根节点为 $(0,n-1)$ 时，本数组是一个逻辑二叉搜索树。
 - 其他解法：每一行二分（升序排列，二分条件天然）
-# 链表
+## 链表
 ### [相交链表](https://leetcode.cn/problems/intersection-of-two-linked-lists/)
 
 ```java
@@ -1221,3 +1221,94 @@ class Solution {
 ```
 
 - 拼接后归并排序整个链表
+### [LRU 缓存](https://leetcode.cn/problems/lru-cache/)
+
+```java
+public class LRUCache {
+    class DLinkedNode {
+        int key;
+        int value;
+        DLinkedNode prev;
+        DLinkedNode next;
+        public DLinkedNode() {}
+        public DLinkedNode(int _key, int _value) {key = _key; value = _value;}
+    }
+  
+    private Map<Integer, DLinkedNode> cache = new HashMap<Integer, DLinkedNode>();
+    private int size;
+    private int capacity;
+    private DLinkedNode head, tail;
+  
+    public LRUCache(int capacity) {
+        this.size = 0;
+        this.capacity = capacity;
+        // 使用伪头部和伪尾部节点
+        head = new DLinkedNode();
+        tail = new DLinkedNode();
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    public int get(int key) {
+        DLinkedNode node = cache.get(key);
+        if (node == null) {
+            return -1;
+        }
+        // 如果 key 存在，先通过哈希表定位，再移到头部
+        moveToHead(node);
+        return node.value;
+    }
+
+    public void put(int key, int value) {
+        DLinkedNode node = cache.get(key);
+        if (node == null) {
+            // 如果 key 不存在，创建一个新的节点
+            DLinkedNode newNode = new DLinkedNode(key, value);
+            // 添加进哈希表
+            cache.put(key, newNode);
+            // 添加至双向链表的头部
+            addToHead(newNode);
+            ++size;
+            if (size > capacity) {
+                // 如果超出容量，删除双向链表的尾部节点
+                DLinkedNode tail = removeTail();
+                // 删除哈希表中对应的项
+                cache.remove(tail.key);
+                --size;
+            }
+        }
+        else {
+            // 如果 key 存在，先通过哈希表定位，再修改 value，并移到头部
+            node.value = value;
+            moveToHead(node);
+        }
+    }
+  
+    private void addToHead(DLinkedNode node) {
+        node.prev = head;
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+    }
+
+    private void removeNode(DLinkedNode node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    private void moveToHead(DLinkedNode node) {
+        removeNode(node);
+        addToHead(node);
+    }
+
+    private DLinkedNode removeTail() {
+        DLinkedNode res = tail.prev;
+        removeNode(res);
+        return res;
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/lru-cache/solutions/259678/lruhuan-cun-ji-zhi-by-leetcode-solution/?envType=study-plan-v2&envId=top-100-liked)
+- 哈希表+双向链表，通过双向链表维持 [LRU (最近最少使用) 缓存](https://baike.baidu.com/item/LRU) 。
+## 二叉树
