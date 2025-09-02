@@ -1,7 +1,7 @@
 ---
 title: Leetcode Hot 100
 slug: leetcode-hot-100
-date: 2025-08-20
+date: 2025-09-02
 categories: 算法
 tags:
   - leetcode
@@ -130,8 +130,8 @@ class Solution {
 ```
 
 - [题解](https://leetcode.cn/problems/container-with-most-water/solutions/11491/container-with-most-water-shuang-zhi-zhen-fa-yi-do/?envType=study-plan-v2&envId=top-100-liked)
-- 若向内**移动短板**，水槽的短板`min(h[left],h[right])`可能变大，因此下个水槽的面积**可能增大**。
-- 若向内**移动长板**，水槽的短板`min(h[left],h[right])`不变或变小，因此下个水槽的面积**一定变小**。
+- 若向内**移动短板**，水槽的短板 `min(h[left],h[right])` 可能变大，因此下个水槽的面积**可能增大**。
+- 若向内**移动长板**，水槽的短板 `min(h[left],h[right])` 不变或变小，因此下个水槽的面积**一定变小**。
 ### [三数之和](https://leetcode.cn/problems/3sum/)
 
 ```java
@@ -1312,3 +1312,461 @@ public class LRUCache {
 - [题解](https://leetcode.cn/problems/lru-cache/solutions/259678/lruhuan-cun-ji-zhi-by-leetcode-solution/?envType=study-plan-v2&envId=top-100-liked)
 - 哈希表+双向链表，通过双向链表维持 [LRU (最近最少使用) 缓存](https://baike.baidu.com/item/LRU) 。
 ## 二叉树
+
+### 二叉树的遍历-7种
+
+```java
+// 前序遍历 (Preorder Traversal)
+// 递归
+public void dfs(TreeNode root) {
+    if (root == null) {
+        return;
+    }
+    System.out.print(root.val + " "); // 访问根节点
+    dfs(root.left);
+    dfs(root.right);
+}
+// 迭代
+import java.util.Stack;
+public void main(TreeNode root) {
+    if (root == null) {
+        return;
+    }
+    Stack<TreeNode> stack = new Stack<>();
+    stack.push(root);
+    while (!stack.isEmpty()) {
+        TreeNode node = stack.pop();
+        System.out.print(node.val + " ");
+        // 关键点：先入栈右孩子，再入栈左孩子
+        if (node.right != null) {
+            stack.push(node.right);
+        }
+        if (node.left != null) {
+            stack.push(node.left);
+        }
+    }
+}
+
+// 中序遍历 (Inorder Traversal)
+// 递归
+public void dfs(TreeNode root) {
+    if (root == null) {
+        return;
+    }
+    dfs(root.left);
+    System.out.print(root.val + " "); // 访问根节点
+    dfs(root.right);
+}
+// 迭代
+import java.util.Stack;
+public void main(TreeNode root) {
+    Stack<TreeNode> stack = new Stack<>();
+    TreeNode curr = root;
+    while (curr != null || !stack.isEmpty()) {
+        // 一路向左，将所有左子节点入栈
+        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
+        }
+        curr = stack.pop();
+        System.out.print(curr.val + " ");
+        curr = curr.right;
+    }
+}
+
+// 后序遍历 (Postorder Traversal)
+// 递归
+public void dfs(TreeNode root) {
+    if (root == null) {
+        return;
+    }
+    dfs(root.left);
+    dfs(root.right);
+    System.out.print(root.val + " "); // 访问根节点
+}
+//迭代
+import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Collections;
+public void postorderTraversalIterative(TreeNode root) {
+    if (root == null) {
+        return;
+    }
+    Stack<TreeNode> stack1 = new Stack<>();
+    Stack<TreeNode> stack2 = new Stack<>();
+    stack1.push(root);
+    // 第一个栈用于以“根右左”的顺序遍历
+    while (!stack1.isEmpty()) {
+        TreeNode node = stack1.pop();
+        stack2.push(node);
+        if (node.left != null) {
+            stack1.push(node.left);
+        }
+        if (node.right != null) {
+            stack1.push(node.right);
+        }
+    }
+    // 第二个栈以“左右根”的顺序输出
+    while (!stack2.isEmpty()) {
+        System.out.print(stack2.pop().val + " ");
+    }
+}
+
+// 层序遍历 (Level Order Traversal) - 迭代
+import java.util.Queue;
+import java.util.LinkedList;
+public void bfs(TreeNode root) {
+    if (root == null) {
+        return;
+    }
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.offer(root);
+    while (!queue.isEmpty()) {
+        TreeNode node = queue.poll();
+        System.out.print(node.val + " ");
+        if (node.left != null) {
+            queue.offer(node.left);
+        }
+        if (node.right != null) {
+            queue.offer(node.right);
+        }
+    }
+}
+```
+### [二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/)
+
+1、递归
+
+```java
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        dfs(res,root);
+        return res;
+    }
+    // 中序遍历
+    public void dfs(List<Integer> ans, TreeNode node){
+        if(node == null){
+            return;
+        }
+        dfs(ans,node.left);
+        ans.add(node.val);
+        dfs(ans,node.right);
+    }
+}
+```
+
+2、迭代
+
+```java
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode cur = root;
+        while(cur != null || !stack.empty()){
+            if(cur != null){
+                stack.push(cur);
+                cur = cur.left;
+            }else {
+                cur = stack.pop();
+                res.add(cur.val);
+                cur = cur.right;
+            }
+        }
+        return res;
+    }
+}
+```
+
+- 深度优先搜索 - 中序遍历的迭代方式 - 栈
+### [二叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-binary-tree/)
+
+1、迭代
+
+```java
+class Solution {
+    public int maxDepth(TreeNode root) {
+        Deque<TreeNode> queue = new ArrayDeque<>();
+        int res = 0;
+        if(root != null){
+            queue.add(root);
+        }else{
+            return res;
+        }
+        while(!queue.isEmpty()){
+            res ++;
+            int size = queue.size();
+            while(size -- > 0){
+                TreeNode cur = queue.pop();
+                if(cur.left != null) queue.add(cur.left);
+                if(cur.right != null) queue.add(cur.right);
+            }
+        }
+        return res;
+    }
+}
+```
+
+2、递归
+
+```java
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root == null){
+            return 0;
+        }else{
+            int leftHeight = maxDepth(root.left);
+            int rightHeight = maxDepth(root.right);
+            return 1 + Math.max(leftHeight,rightHeight);
+        }
+    }
+}
+```
+
+- 广度优先搜索 - 层序遍历 - 队列
+- **前序求深度与后序求高度**，最大高度等于最大深度
+- 求树的最大深度可以理解为是左子树或者右子树里最大深度 +1，这样就把原问题拆解成了两个子问题
+### [翻转二叉树](https://leetcode.cn/problems/invert-binary-tree/)
+
+```java
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        dfs(root);
+        return root;
+    }
+    // 翻转当前 root 节点的左右子树
+    public void dfs(TreeNode root) {
+        if(root == null){
+            return;
+        }
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+        dfs(root.left);
+        dfs(root.right);
+    }
+}
+```
+
+- `dfs(TreeNode root)`：翻转当前节点的左右子树（理解该方法的这个功能即可，不要人脑压栈）。
+### [对称二叉树](https://leetcode.cn/problems/symmetric-tree/)
+
+```java
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null) {
+            return true;
+        }
+        return compare(root.left, root.right);
+    }
+    public boolean compare(TreeNode left, TreeNode right) {
+        if (left != null && right == null) {
+            return false;
+        }
+        else if (left == null && right != null) {
+            return false;
+        }
+        else if (left == null && right == null) {
+            return true;
+        }
+        else if (left.val != right.val) {
+            return false;
+        }
+        boolean outside = compare(left.left, right.right); // 左子树左、右子树右
+        boolean inside = compare(left.right, right.left); // 左子树右、右子树左
+        return outside && inside; // 内侧和外侧值是否相等
+    }
+}
+```
+
+- 递归传递左右子树的根节点，不是之前只传当前子树根节点。
+### [二叉树的直径](https://leetcode.cn/problems/diameter-of-binary-tree/)
+
+```java
+class Solution {
+    int ans;
+    public int diameterOfBinaryTree(TreeNode root) {
+        ans = 1;
+        depth(root);
+        return ans - 1;
+    }
+    public int depth(TreeNode node) {
+        if (node == null) {
+            return 0; // 访问到空节点了，返回0
+        }
+        int L = depth(node.left); // 左儿子为根的子树的深度
+        int R = depth(node.right); // 右儿子为根的子树的深度
+        ans = Math.max(ans, L+R+1); // 计算d_node即L+R+1 并更新ans
+        return Math.max(L, R) + 1; // 返回该节点为根的子树的深度
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/diameter-of-binary-tree/?envType=study-plan-v2&envId=top-100-liked)
+- 假设我们知道对于该节点的左儿子向下遍历经过最多的节点数 L （即以左儿子为根的子树的深度） 和其右儿子向下遍历经过最多的节点数 R （即以右儿子为根的子树的深度），那么以该节点为起点的路径经过节点数的最大值即为 $L+R+1$。
+### [二叉树的层序遍历](https://leetcode.cn/problems/binary-tree-level-order-traversal/)
+
+```java
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if(root == null){
+            return new ArrayList();
+        }
+        Deque<TreeNode> queue = new LinkedList();
+        queue.add(root);
+        List<List<Integer>> res = new ArrayList<>();
+        while(!queue.isEmpty()){
+            List<Integer> ans = new ArrayList<>();
+            int size = queue.size();
+            while(size-- > 0){
+                TreeNode cur = queue.pop();
+                ans.add(cur.val);
+                if(cur.left != null) queue.add(cur.left);
+                if(cur.right != null) queue.add(cur.right);
+            }
+            res.add(ans);
+        }
+        return res;
+    }
+}
+```
+
+- 借助队列的“先进先出”特点
+### [将有序数组转换为二叉搜索树](https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/)
+
+```java
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if(nums.length == 0) return null;
+        return dfs(nums,0,nums.length - 1);
+    }
+    public TreeNode dfs(int[] nums,int l,int r){
+        if(l > r){
+            return null;
+        }
+        int mid = (l + r) >> 1;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = dfs(nums,l,mid-1);
+        root.right = dfs(nums,mid+1,r);
+        return root;
+    }
+}
+```
+
+- 想要二叉搜索树平衡，需要始终选用数组中间节点。
+- 选取的子数组范围采用闭区间 `[l,r]`，递归需注意区间的开闭统一。
+### [验证二叉搜索树](https://leetcode.cn/problems/validate-binary-search-tree/)
+
+```java
+class Solution {
+    TreeNode pre = null;
+    public boolean isValidBST(TreeNode root) {
+        return dfs(root);
+    }
+    public boolean dfs(TreeNode root){
+        if(root == null){
+            return true;
+        }
+        boolean leftTree = dfs(root.left);
+        if(pre != null && pre.val >= root.val) {
+            return false;
+        }else{
+            pre = root;
+        }
+        boolean rightTree = dfs(root.right);
+        return leftTree && rightTree;
+    }
+}
+```
+
+- 二叉搜素树的中序遍历元素是递增的。
+- 可以存储在数组后进行判断；优化就是直接遍历二叉树的过程中比较，定义一个全局变量记录前一个节点数值。
+### [二叉搜索树中第 K 小的元素](https://leetcode.cn/problems/kth-smallest-element-in-a-bst/)
+
+```java
+class Solution {
+    int size = 0;
+    int res = -1;
+    boolean st = false;
+    public int kthSmallest(TreeNode root, int k) {
+        dfs(root,k);
+        return res;        
+    }
+    public void dfs(TreeNode root,int k){
+        if(root == null || st){
+            return;
+        }
+        dfs(root.left,k);
+        if(st) return;
+        size++;
+        if(size == k){
+            res = root.val;
+            st = true;
+            return;
+        }
+        dfs(root.right,k);
+    }
+}
+```
+
+- 二叉搜素树的中序遍历元素是递增的。
+- 通过计数器以及找到第 K 小的数后剪枝。
+### [二叉树的右视图](https://leetcode.cn/problems/binary-tree-right-side-view/)
+
+```java
+class Solution {
+    List<Integer> res = new ArrayList<>();
+    public List<Integer> rightSideView(TreeNode root) {
+        dfs(root,0);
+        return res;
+    }
+    public void dfs(TreeNode root,int depth){
+        if(root == null) return;
+        if(res.size() == depth){
+            res.add(root.val);
+        }
+        dfs(root.right,depth+1);
+        dfs(root.left,depth+1);
+    }
+}
+```
+
+- 每一层最多只能添加一个节点值
+- 利用 `res.size()` 来判断当前的最大深度
+- 先右节点再左节点，当某个深度首次到达时，对应的节点就在右视图中
+
+```java
+class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        return dfs(inorder,postorder);
+    }
+    public TreeNode dfs(int[] inorder,int[] postorder) {
+        if(postorder.length == 0 || inorder.length == 0) return null;
+        // 后序数组最后一个元素为节点
+        int rootValue = postorder[postorder.length - 1];
+        TreeNode root = new TreeNode(rootValue);
+        // 只有一个叶子节点
+        if(postorder.length == 1) return root;
+        // 切割中序，根据后序数组节点切割
+        int index;
+        for(index = 0; index < inorder.length; index ++){
+            if(inorder[index] == rootValue) break;
+        }
+        int[] leftInorder = Arrays.copyOfRange(inorder,0,index);
+        int[] rightInorder = Arrays.copyOfRange(inorder,index + 1,inorder.length);
+        // 切割后序,根据左中序切割
+        int[] leftPostorder = Arrays.copyOfRange(postorder,0,leftInorder.length);
+        int[] rightPostorder = Arrays.copyOfRange(postorder,leftInorder.length,postorder.length-1);
+        root.left = dfs(leftInorder,leftPostorder);
+        root.right = dfs(rightInorder,rightPostorder);
+        return root;
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/solutions/50561/tu-jie-gou-zao-er-cha-shu-wei-wan-dai-xu-by-user72/)
+- 根据中序+后序的遍历数组，还原二叉树。
+- 当后序数组长度为 0，中序数组也一定为 0。同理后序数组长度为 1 时元素值为叶子节点。
+- 先根据后序数组的根节点切割中序数组得到左/右子树，再根据中序数组的左子树确定后序数组的切割位置，从而切割后续数组。
+- `Arrays.copyOfRange(int[] original, int from, int to)`：复制 original 数组，包前不包后。
