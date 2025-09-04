@@ -1,7 +1,7 @@
 ---
 title: Leetcode Hot 100
 slug: leetcode-hot-100
-date: 2025-09-02
+date: 2025-09-04
 categories: 算法
 tags:
   - leetcode
@@ -298,7 +298,6 @@ class Solution {
 class Solution {
     public int subarraySum(int[] nums, int k) {
         HashMap<Integer, Integer> mp = new HashMap<>();
-        // suf: 表示
         int res = 0;
         int suf = 0;
         // 当suf[i] - k = 0 即suf[i] = k时的初始值
@@ -317,7 +316,7 @@ class Solution {
 
 - [题解](https://leetcode.cn/problems/subarray-sum-equals-k/solutions/238572/he-wei-kde-zi-shu-zu-by-leetcode-solution/?envType=study-plan-v2&envId=top-100-liked)
 - 两种解法，枚举 | 前缀和
-- 前缀和需要理解等式 $Sum(nums[i],nums[j-1])=suf[i]-suf[j]$，`suf[i]`表示 $Sum(nums[i],nums[n-1])$。
+- 前缀和需要理解等式 $Sum(nums[i],nums[j-1])=suf[i]-suf[j]$，`suf[i]` 表示 $Sum(nums[i],nums[n-1])$。（这里是后缀）
 ### [滑动窗口最大值](https://leetcode.cn/problems/sliding-window-maximum/)
 
 ```java
@@ -1735,6 +1734,7 @@ class Solution {
 - 每一层最多只能添加一个节点值
 - 利用 `res.size()` 来判断当前的最大深度
 - 先右节点再左节点，当某个深度首次到达时，对应的节点就在右视图中
+### [从前序与中序遍历序列构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 
 ```java
 class Solution {
@@ -1770,3 +1770,213 @@ class Solution {
 - 当后序数组长度为 0，中序数组也一定为 0。同理后序数组长度为 1 时元素值为叶子节点。
 - 先根据后序数组的根节点切割中序数组得到左/右子树，再根据中序数组的左子树确定后序数组的切割位置，从而切割后续数组。
 - `Arrays.copyOfRange(int[] original, int from, int to)`：复制 original 数组，包前不包后。
+###  [二叉树展开为链表](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/)
+
+方法1：
+
+```java
+class Solution {
+    List<TreeNode> res = new ArrayList<>();
+    public void flatten(TreeNode root) {
+        dfs(root);
+        TreeNode cur = root;
+        for(int i = 1; i < res.size(); i++){
+            cur.left = null;
+            cur.right = res.get(i);
+            cur = cur.right;
+        }
+    }
+    public void dfs(TreeNode root){
+        if(root == null){
+            return;
+        }
+        res.add(root);
+        dfs(root.left);
+        dfs(root.right);
+    }
+}
+```
+
+- 先遍历后展开
+
+方法2：
+
+```java
+class Solution {
+    public void flatten(TreeNode root) {
+        TreeNode curr = root;
+        while (curr != null) {
+            if (curr.left != null) {
+                TreeNode next = curr.left;
+                TreeNode pre = next;
+                while (pre.right != null) {
+                    pre = pre.right;
+                }
+                pre.right = curr.right;
+                curr.left = null;
+                curr.right = next;
+            }
+            curr = curr.right;
+        }
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/solutions/356853/er-cha-shu-zhan-kai-wei-lian-biao-by-leetcode-solu/?envType=study-plan-v2&envId=top-100-liked)
+- 该节点的左子树中最后一个被访问的节点是左子树中的**最右边的节点**，也是该节点的前驱节点，然后将当前节点的右子节点赋给前驱节点的右子节点。
+### [从前序与中序遍历序列构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
+```java
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if(preorder.length == 0 || inorder.length == 0) {
+            return null;
+        }
+        // 根节点
+        TreeNode root = new TreeNode(preorder[0]);
+        // 叶子节点
+        if(preorder.length == 1){
+            return root;
+        }
+        // 切割中序数组
+        int index;
+        for(index = 0; index < inorder.length; index++){
+            if(inorder[index] == preorder[0]) {
+                break;
+            }
+        }
+        int[] lInorder = Arrays.copyOfRange(inorder,0,index);
+        int[] rInorder = Arrays.copyOfRange(inorder,index + 1,inorder.length);
+        // 切割前序数组
+        int[] lPreorder = Arrays.copyOfRange(preorder,1,lInorder.length + 1);
+        int[] rPreorder = Arrays.copyOfRange(preorder,lInorder.length + 1,inorder.length);
+        root.left = buildTree(lPreorder,lInorder);
+        root.right = buildTree(rPreorder,rInorder);
+        return root;
+    }
+}
+```
+
+- 只有中序同前序/后序的组合才可以确定一颗二叉树
+- 关键在于，前序数组的第 1 个元素就是子树的根节点，然后根据根节点确定中序/前序数组的左右子树，最后递归。
+- 注意数组复制的边界。
+### [路径总和 III](https://leetcode.cn/problems/path-sum-iii/)
+
+方法一：
+
+```java
+class Solution {
+    public int pathSum(TreeNode root, long targetSum) {
+        if(root == null) return 0;
+        // 这里相当于先序遍历每个 root 起点，然后统计该起点满足结果的路径数
+        int res = dfs(root,targetSum);
+        res += pathSum(root.left,targetSum);
+        res += pathSum(root.right,targetSum);
+        return res;
+    }
+
+    // 表示以节点 root 为起点向下且满足路径总和为 val 的路径数目。
+    public int dfs(TreeNode root,long targetSum){
+        if(root == null) return 0;
+        int res = 0;
+        int val = root.val;
+        // 当前节点值就满足
+        if (val == targetSum) {
+            res++;
+        }
+        res += dfs(root.left,targetSum - val);
+        res += dfs(root.right,targetSum - val);
+        return res;
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/path-sum-iii/solutions/1021296/lu-jing-zong-he-iii-by-leetcode-solution-z9td/)
+- 暴力解法：先序遍历每一个节点 root，然后求以节点 root 为起点向下且满足路径总和为 targetSum 的路径数目
+- `dfs(TreeNode root,long targetSum) = dfs(root.left,targetSum - val) + dfs(root.right,targetSum - val)`
+
+方法二：
+
+```java
+class Solution {
+    public int pathSum(TreeNode root, int targetSum) {
+        Map<Long, Integer> prefix = new HashMap<Long, Integer>();
+        prefix.put(0L, 1);
+        return dfs(root, prefix, 0, targetSum);
+    }
+  
+    public int dfs(TreeNode root, Map<Long, Integer> prefix, long curr, int targetSum) {
+        if (root == null) {
+            return 0;
+        }
+        int ret = 0;
+        curr += root.val;
+        ret = prefix.getOrDefault(curr - targetSum, 0);
+        prefix.put(curr, prefix.getOrDefault(curr, 0) + 1);
+        ret += dfs(root.left, prefix, curr, targetSum);
+        ret += dfs(root.right, prefix, curr, targetSum);
+        prefix.put(curr, prefix.getOrDefault(curr, 0) - 1);
+        return ret;
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/path-sum-iii/solutions/1021296/lu-jing-zong-he-iii-by-leetcode-solution-z9td/)
+- 同[和为 K 的子数组](https://leetcode.cn/problems/subarray-sum-equals-k/) 题的思路一致，考察前缀和。
+### [二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+```java
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        return dfs(root,p,q);
+    }
+    public TreeNode dfs(TreeNode root,TreeNode p,TreeNode q){
+        if(root == null) return null;
+        if(root == p || root == q) return root;
+        // 在左子树中找 p 或 q
+        TreeNode left = dfs(root.left,p,q);
+        // 在右子树中找 p 或 q
+        TreeNode right = dfs(root.right,p,q);
+        // 左右都找到 → 当前 root 就是最近公共祖先
+        if(left != null && right != null) return root;
+        // 情况2：只找到一个 → 把那个往上返回
+        if(left != null && right == null) return left;
+        if(left == null && right != null) return right;
+        return null;
+    }
+}
+```
+
+- 画图
+- 后序遍历，这样结果是向上返回（回溯）
+- 公共祖先的两种情况
+### [二叉树中的最大路径和](https://leetcode.cn/problems/binary-tree-maximum-path-sum/)
+
+```java
+class Solution {
+    int maxSum = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        maxGain(root);
+        return maxSum;
+    }
+    public int maxGain(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        // 递归计算左右子节点的最大贡献值
+        // 只有在最大贡献值大于 0 时，才会选取对应子节点
+        int leftGain = Math.max(maxGain(node.left), 0);
+        int rightGain = Math.max(maxGain(node.right), 0);
+        // 节点的最大路径和取决于该节点的值与该节点的左右子节点的最大贡献值
+        int priceNewpath = node.val + leftGain + rightGain;
+        // 更新答案
+        maxSum = Math.max(maxSum, priceNewpath);
+        // 返回节点的最大贡献值
+        return node.val + Math.max(leftGain, rightGain);
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/binary-tree-maximum-path-sum/solutions/297005/er-cha-shu-zhong-de-zui-da-lu-jing-he-by-leetcode-/?envType=study-plan-v2&envId=top-100-liked)
+- 后序遍历，统计每个节点的最大贡献值（该节点为起点的一条路径，路径的和最大）
+- 节点的最大路径和等于该节点的值加上左右子节点的最大贡献值（大于 0）。
