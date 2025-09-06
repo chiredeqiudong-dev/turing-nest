@@ -1,7 +1,7 @@
 ---
 title: Leetcode Hot 100
 slug: leetcode-hot-100
-date: 2025-09-04
+date: 2025-09-06
 categories: 算法
 tags:
   - leetcode
@@ -1980,3 +1980,209 @@ class Solution {
 - [题解](https://leetcode.cn/problems/binary-tree-maximum-path-sum/solutions/297005/er-cha-shu-zhong-de-zui-da-lu-jing-he-by-leetcode-/?envType=study-plan-v2&envId=top-100-liked)
 - 后序遍历，统计每个节点的最大贡献值（该节点为起点的一条路径，路径的和最大）
 - 节点的最大路径和等于该节点的值加上左右子节点的最大贡献值（大于 0）。
+## 图论
+### [岛屿数量](https://leetcode.cn/problems/number-of-islands/)
+
+```java
+class Solution {
+    // 方向数组：右、上、左、下
+    int[] dx = {1, 0, -1, 0};
+    int[] dy = {0, -1, 0, 1};
+
+    public int numIslands(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int islands = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') { // 发现未访问的陆地
+                    dfs(grid, i, j);
+                    islands++;
+                }
+            }
+        }
+        return islands;
+    }
+  
+    private void dfs(char[][] grid, int x, int y) {
+        // 标记当前格子为已访问（直接修改网格）
+        grid[x][y] = '0';
+        // 遍历四个方向
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            // 检查是否越界或是否为陆地
+            if (nx >= 0 && nx < grid.length && ny >= 0 && ny < grid[0].length && grid[nx][ny] == '1') {
+                dfs(grid, nx, ny);
+            }
+        }
+    }
+}
+```
+
+- DFS
+- 经典连通量问题
+### [腐烂的橘子](https://leetcode.cn/problems/rotting-oranges/)
+
+```java
+class Solution {
+    int[] dx = new int[]{1, 0, -1, 0}; 
+    int[] dy = new int[]{0, -1, 0, 1};
+
+    public int orangesRotting(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Deque<int[]> queue = new LinkedList<>();
+        int freshCount = 0; // 统计新鲜橘子数量
+        boolean[][] visited = new boolean[m][n];
+        // 统计新鲜橘子和初始腐烂橘子
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    freshCount++;
+                } else if (grid[i][j] == 2) {
+                    queue.add(new int[]{i, j}); // 将所有腐烂橘子加入队列
+                    visited[i][j] = true; // 标记初始腐烂橘子
+                }
+            }
+        }
+        int time = 0; // 时间计数
+        // 运行 BFS
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            boolean hasNewRotten = false; // 是否有新的腐烂橘子
+            for (int i = 0; i < size; i++) {
+                int[] curr = queue.poll();
+                int x = curr[0], y = curr[1];
+                // 检查四个方向
+                for (int j = 0; j < 4; j++) {
+                    int nx = x + dx[j];
+                    int ny = y + dy[j];
+                    // 跳过越界或已访问或非新鲜橘子
+                    if (nx < 0 || nx >= m || ny < 0 || ny >= n || visited[nx][ny] || grid[nx][ny] != 1) {
+                        continue;
+                    }
+                    // 新鲜橘子变为腐烂
+                    grid[nx][ny] = 2;
+                    visited[nx][ny] = true;
+                    queue.add(new int[]{nx, ny});
+                    freshCount--; // 减少新鲜橘子计数
+                    hasNewRotten = true; // 标记有新的腐烂橘子
+                }
+            }
+            // 只有当有新的腐烂橘子时才增加时间（关键）
+            if (hasNewRotten) {
+                time++;
+            }
+        }
+        // 如果仍有新鲜橘子未腐烂，返回 -1
+        return freshCount == 0 ? time : -1;
+    }
+}
+```
+
+- BFS
+- 有一个关键点是在每一次腐烂的过程中，需要通过 hasNewRotten 变量来判断是否有新的橘子被腐烂然后才增加时间。
+### [课程表](https://leetcode.cn/problems/course-schedule/)
+
+```java
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        // 初始化邻接表和入度数组
+        Map<Integer, List<Integer>> adjList = new HashMap<>();
+        int[] indegree = new int[numCourses];
+        // 构建图：记录课程依赖关系并统计入度
+        for (int[] pre : prerequisites) {
+            int course = pre[1]; // 被依赖的课程
+            int prereq = pre[0]; // 前置课程
+            adjList.computeIfAbsent(prereq, k -> new ArrayList<>()).add(course);
+            indegree[course]++;
+        }
+        // 将入度为0的课程加入队列
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        // BFS处理课程
+        int completedCourses = 0;
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            completedCourses++;
+            // 处理依赖当前课程的后续课程
+            List<Integer> dependents = adjList.getOrDefault(current, Collections.emptyList());
+            for (int next : dependents) {
+                indegree[next]--;
+                if (indegree[next] == 0) {
+                    queue.offer(next);
+                }
+            }
+        }
+        // 判断是否所有课程都能完成
+        return completedCourses == numCourses;
+    }
+}
+```
+
+- 拓扑排序
+- BFS 解决拓扑排序，统计入度节点和邻接边，队列里记录入度为 0 的节点（可处理课程）。
+### [实现 Trie (前缀树)](https://leetcode.cn/problems/implement-trie-prefix-tree/)
+
+```java
+class Trie {
+    // 先创建 node 节点的数据结构
+    public class Node {
+        Node[] son = new Node[26];
+        boolean end = false;
+    }
+    public Node root;
+
+    public Trie() {
+        // 初始化 root
+        root = new Node();
+    }
+
+    public void insert(String word) {
+        Node cur = root;
+        for(char c : word.toCharArray()) {
+	        int index = c-'a';
+            if(cur.son[index] == null){
+                cur.son[index] = new Node();
+            }
+            cur = cur.son[index];
+        }
+        // 完整单词
+        cur.end = true;
+    }
+    
+    public boolean search(String word) {
+        return find(word) == 1;
+    }
+    
+    public boolean startsWith(String prefix) {
+        return find(prefix) != 0;
+    }
+    
+    // 搜索前缀树
+    public int find(String word) {
+        Node cur = root;
+        for(char c : word.toCharArray()) {
+        	int index = c-'a';
+            if(cur.son[index] == null) {
+                // 不存在当前字符
+                return 0;
+            }
+            cur = cur.son[index];
+        }
+        // 完整单词
+        if(cur.end == true) return 1;
+        // 只是字符前缀匹配
+        return 2;
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/implement-trie-prefix-tree/solutions/2993894/cong-er-cha-shu-dao-er-shi-liu-cha-shu-p-xsj4/?envType=study-plan-v2&envId=top-100-liked)
+- 二十六叉树
