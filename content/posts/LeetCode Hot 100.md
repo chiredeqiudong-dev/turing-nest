@@ -2186,3 +2186,198 @@ class Trie {
 
 - [题解](https://leetcode.cn/problems/implement-trie-prefix-tree/solutions/2993894/cong-er-cha-shu-dao-er-shi-liu-cha-shu-p-xsj4/?envType=study-plan-v2&envId=top-100-liked)
 - 二十六叉树
+## 回溯
+### [全排列](https://leetcode.cn/problems/permutations/)
+
+```java
+class Solution {
+    public List<List<Integer>> res = new ArrayList<>();
+    public boolean[] st;
+    public List<List<Integer>> permute(int[] nums) {
+        st = new boolean[nums.length];
+        dfs(nums,new ArrayList());
+        return res;
+    }
+
+    public void dfs(int[] nums,List<Integer> path){
+        if(path.size() >= nums.length) {
+            res.add(new ArrayList(path));
+            return;
+        }
+        for(int i = 0; i < nums.length; i++){
+            if(st[i]) continue;
+            st[i] = true;
+            path.add(nums[i]);
+            dfs(nums,path);
+            st[i] = false;
+            path.remove(path.size() - 1);
+        }
+    }
+}
+```
+
+- [回溯算法总结](https://blog.turingzy.cn/posts/backtracking-algorithm/)
+### [子集](https://leetcode.cn/problems/subsets/)
+
+```java
+class Solution {
+    public List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> subsets(int[] nums) {
+        res.add(new ArrayList());
+        dfs(nums,0,new ArrayList());
+        return res;
+    }
+
+    public void dfs(int[] nums,int startIndex,List<Integer> node){
+        if(node.size() >= nums.length) {
+            return;
+        }
+        for(int i = startIndex; i < nums.length; i++){
+            node.add(nums[i]);
+            res.add(new ArrayList(node));
+            dfs(nums,i + 1,node);
+            node.remove(node.size() - 1);
+        }
+    }
+}
+```
+
+- [回溯算法总结](https://blog.turingzy.cn/posts/backtracking-algorithm/)
+- 注意 startIndex 是 i + 1，也就是下一层遍历从 `num[i+1]` 开始
+### [电话号码的字母组合](https://leetcode.cn/problems/letter-combinations-of-a-phone-number/)
+
+```java
+class Solution {
+    public List<String> res = new ArrayList<>();
+    public String[] phone;
+    public List<String> letterCombinations(String digits) {
+        int n = digits.length();
+        if(n == 0) return res;
+        phone = new String[] {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        dfs(digits,0,"");
+        return res;
+    }
+
+    public void dfs(String digits,int index,String ans){
+        if(ans.length() >= digits.length()){
+            res.add(ans);
+            return;
+        }
+        String arr = phone[digits.charAt(index) - '0'];
+        for(int i = 0; i < arr.length(); i++) {
+            dfs(digits,index + 1,ans + arr.charAt(i));
+        }
+    }
+}
+```
+
+- 通过递归来 n 重循环
+- 每一层是 `phone[digits.charAt(index) - '0']`，不再是同一数组
+###  [组合总和](https://leetcode.cn/problems/combination-sum/)
+
+```java
+class Solution {
+    public List<List<Integer>> res = new ArrayList<>();
+    public int goal;
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        goal = target;
+        dfs(candidates,0,0,new ArrayList());
+        return res;
+    }
+
+    public void dfs(int[] candidates,int sum,int startIndex,List<Integer> ans){
+        if(sum > goal){
+            return;
+        }else if(sum == goal){
+            res.add(new ArrayList(ans));
+            return;
+        }
+
+        for(int i = startIndex; i < candidates.length; i++) {
+            sum += candidates[i];
+            if(sum > goal) break;
+            ans.add(candidates[i]);
+            // 这个 i 是关键,避免重复搜索
+            dfs(candidates,sum,i,ans);
+            sum -= candidates[i];
+            ans.remove(ans.size() - 1);
+        }
+    }
+}
+```
+
+- startIndex 不是 i + 1，因为可以重复选自己；为了不递归重复答案，不能重复选*前面已经选过*的，所以每一层从 i 开始遍历。
+### [括号生成](https://leetcode.cn/problems/generate-parentheses/)
+
+方法一：
+
+```java
+class Solution {
+    public List<String> res = new ArrayList<>();
+    public int goal;
+    public List<String> generateParenthesis(int n) {
+        if(n == 1) {
+            res.add("()");
+            return res;
+        }
+        goal = n;
+        dfs(new char[]{'(',')'},0,0,"");
+        return res;
+    }
+
+    public void dfs(char[] arr,int l,int r,String ans) {
+        if(ans.length() > 0 && ans.charAt(0) == ')') return;
+        // 右括号的个数不能超过左括号的个数。比如 ())( 是不合法的
+        if(l > goal || r > goal || r > l) return;
+        while(l == goal && r != goal) {
+            ans += ')';
+            r ++;
+        }
+        if(l == goal && r == goal){            
+            res.add(ans);
+            return;
+        }
+
+        for(int i = 0; i < 2; i++){
+            if(arr[i] == '(') l++;
+            else r++;
+            dfs(arr,l,r,ans + arr[i]);
+            if(arr[i] == '(') l--;
+            else r--;
+        }
+    }
+}
+```
+
+- 关键：`if(r > l) return`，省去了判断是否有效括号对这一步。
+
+方法二：
+
+```java
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        char[] path = new char[2*n];
+        List<String> ans = new ArrayList<>();
+        int left=0,rigth=0;
+        backtrack(left,rigth,n,ans,path);
+        return ans;
+    }        
+
+        private void backtrack(int left,int rigth,int n,List<String> ans,char[] path){
+        if(rigth==n){
+            ans.add(new String(path));
+        }
+        if(left<n){
+            path[left+rigth]='(';
+            backtrack(left+1,rigth,n,ans,path);
+        }
+        if(rigth<left){
+            path[left+rigth]=')';
+            backtrack(left,rigth+1,n,ans,path);
+        }
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/generate-parentheses/solutions/2071015/hui-su-bu-hui-xie-tao-lu-zai-ci-pythonja-wcdw/?envType=study-plan-v2&envId=top-100-liked)
