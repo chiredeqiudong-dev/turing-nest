@@ -2381,3 +2381,937 @@ class Solution {
 ```
 
 - [题解](https://leetcode.cn/problems/generate-parentheses/solutions/2071015/hui-su-bu-hui-xie-tao-lu-zai-ci-pythonja-wcdw/?envType=study-plan-v2&envId=top-100-liked)
+### [单词搜索](https://leetcode.cn/problems/word-search/)
+
+```java
+class Solution {
+    public boolean[][] st;
+    public int[] dx = new int[] {0,1,0,-1};
+    public int[] dy = new int[] {1,0,-1,0};
+    public boolean res = false;
+
+    public boolean exist(char[][] board, String word) {
+        int m = board.length;
+        int n = board[0].length;
+        st = new boolean[m][n];
+        char[] words = word.toCharArray();
+        for(int i = 0; i<m; i++){
+            for(int j = 0; j<n; j++){
+                if(board[i][j] == words[0]) {
+                    st[i][j] = true;
+                    dfs(i,j,board,1,words);
+                    st[i][j] = false;
+                    if(res) {
+                        break;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    public void dfs(int x, int y,char[][] board,int index,char[] word) {
+        if(res) {
+            return;
+        }
+        if(index >= word.length) {
+            res = true;
+            return;
+        }
+        for(int i = 0; i < 4; i++) {
+            int x1 = x + dx[i];
+            int y1 = y + dy[i];
+            if(x1 < 0 || x1 >= board.length || y1 < 0 || y1 >= board[0].length) {
+                continue;
+            }
+            if(st[x1][y1] || board[x1][y1] != word[index]) {
+                continue;
+            }
+            st[x1][y1] = true;
+            dfs(x1,y1,board,index + 1,word);
+            st[x1][y1] = false;
+        }
+    }
+}
+```
+
+- 对于每一个 `word[0]` 都需要进行一次搜索
+- 通过 index 控制下一个字母是否符合搜索条件 `board[x1][y1] == word[index]`
+### [分割回文串](https://leetcode.cn/problems/palindrome-partitioning/)
+
+```java
+class Solution {
+    public List<List<String>> res = new ArrayList<>();
+
+    public List<List<String>> partition(String s) {
+        dfs(s,0,new ArrayList<>());
+        return res;
+    }
+  
+    public void dfs(String s,int startIndex,List<String> path) {
+        if(startIndex >= s.length()) {
+            res.add(new ArrayList(path));
+            return;
+        }
+        for(int i = startIndex; i < s.length(); i++) {
+	        // 插板，得到子集
+            String son = s.substring(startIndex,i + 1);
+            // 回文子串
+            if(isValid(son)){
+                path.add(son);
+                dfs(s,i + 1,path);
+                path.removeLast();
+            }
+        }
+    }
+
+    public boolean isValid(String str) {
+        if(str == null || str.isEmpty()) {
+            return false;
+        }
+        String reversed = new StringBuilder(str).reverse().toString();
+        return str.equals(reversed);
+    }
+}
+```
+
+- 递归的过程相当于在每个字母之间插板，选取插板得到的回文子串再递归
+### [N 皇后](https://leetcode.cn/problems/n-queens/)
+
+```java
+class Solution {
+    public char[][] chess;
+    public List<List<String>> res = new ArrayList<>();
+    public boolean[] st;
+    
+    public List<List<String>> solveNQueens(int n) {
+        chess = new char[n][n];
+        st = new boolean[n];
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                chess[i][j] = '.';
+            }
+        }
+        dfs(0);
+        return res;
+    }
+  
+    public void dfs(int row) {
+        if(row >= chess.length) {
+            List<String> ans = new ArrayList<>();
+            for(char[] c : chess) {
+                ans.add(new String(c));
+            }
+            res.add(ans);
+            return;
+        }
+  
+        for(int i = 0; i < chess.length; i++){
+            if(isValid(row,i)) {
+                st[i] = true;
+                chess[row][i] = 'Q';
+                dfs(row + 1);
+                st[i] = false;
+                chess[row][i] = '.';
+            }
+        }
+    }
+
+    public boolean isValid(int x,int y){
+        if(st[y]) {
+            return false;
+        }
+        for(int i = x-1,j = y-1; i>=0 && j>=0; i--,j--) {
+            if(chess[i][j] == 'Q') return false;
+        }
+        for(int i = x-1, j = y+1; i>=0 && j<chess.length; i--,j++){
+            if(chess[i][j] == 'Q') return false;
+        }
+        return true;
+    }
+}
+```
+
+- 树的高度是棋盘的行，宽度是棋盘的宽
+- 通过列状态数组，避免一次循环判断
+## 二分查找
+### [搜索插入位置](https://leetcode.cn/problems/search-insert-position/)
+
+```java
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int n = nums.length;
+        int l = -1;
+        int r = n;
+        while(l + 1 < r) {
+            int mid = (l + r) >> 1;
+            if(nums[mid] <= target) {
+                l = mid;
+            }else {
+                r = mid;
+            }
+        }
+        // 边界条件
+        if(l == -1) return 0;
+        return nums[l] == target ? l : l + 1;
+    }
+}
+```
+
+- 这个二分模板最好记，哔哩哔哩搜“五点七边”的二分视频
+- 注意 l == -1 的边界条件
+### [搜索二维矩阵](https://leetcode.cn/problems/search-a-2d-matrix/)
+
+```java
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int i = 0;
+        int j = n - 1;
+        while(i < m &&  j >= 0) {
+            if(matrix[i][j] > target) {
+                j --;
+                continue;
+            }
+            if(matrix[i][j] < target) {
+                i ++;
+                continue;
+            }
+            return true;
+        }
+        return false;
+    }
+}
+```
+
+- 二叉搜索树的思路
+- 二分的做法，1、将二维变为一维数组，然后二分；2、先对第一列二分得到 `matrix[0][i] <= target`，然后再二分第 i 行。
+### [在排序数组中查找元素的第一个和最后一个](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
+
+```java
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+	    // >= target 和 >= target + 1 两种边界情况
+        int start = f(nums,target,true); // 开始位置
+        int end = f(nums,target + 1,false); // 结束位置
+        return new int[]{start,end};
+    }
+
+    public int f(int[] nums, int target,boolean flag) {
+        int n = nums.length;
+        if(n == 0) return -1;
+        int l = -1;
+        int r = n;
+        while(l + 1 < r) {
+            int mid = (l + r) >> 1;
+            if(nums[mid] >= target) {
+                r = mid;
+            }else{
+                l = mid;
+            }
+        }
+        if(r != n && flag && nums[r] == target) return r;
+        if(l != -1 && !flag && nums[l] == target - 1) return l;
+        return -1;
+    }
+}
+```
+
+- 分别二分 target 和 target + 1
+### [搜索旋转排序数组](https://leetcode.cn/problems/search-in-rotated-sorted-array/)
+
+```java
+class Solution {
+    public int search(int[] nums, int target) {
+        int n = nums.length;
+        int k = 0;
+        for(int i = 1; i < n; i ++){
+            if(nums[i] < nums[i-1]) {
+                k = i;
+                break;
+            }
+        }
+        int l1 = binaryS(nums,target,-1,k);
+        if(l1 != -1 && nums[l1] == target) {
+            return l1;
+        }
+        int l2 = binaryS(nums,target,k-1,n);
+        if(l2 != -1 && nums[l2] == target) {
+            return l2;
+        }
+        return -1;
+    }
+
+    public int binaryS(int[] nums,int target,int l,int r) {
+        while(l + 1 < r) {
+            int mid = (l + r) >> 1;
+            if(nums[mid] <= target) {
+                l = mid;
+            }else{
+                r = mid;
+            }
+        }
+        return l;
+    }
+}
+```
+
+- 找到切割点 k，然后分别二分左右两个有序数组
+### [寻找旋转排序数组中的最小值](https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/)
+
+```java
+class Solution {
+    public int findMin(int[] nums) {
+        int n = nums.length;
+        int l = 0;
+        int r = n;
+        while(l + 1 < r) {
+            int mid = (l + r) >> 1;
+            if(nums[mid] > nums[n-1]){
+                l = mid;
+            }else{
+                r = mid;
+            }
+        }
+        if(l == -1 || n == 1) {
+            return nums[0];
+        }
+        return nums[l] > nums[l + 1] ? nums[l+1] : nums[l];
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/solutions/1987499/by-endlesscheng-owgd/?envType=study-plan-v2&envId=top-100-liked)
+- 还可以直接双指针前后判断二种情况（旋转后不变、旋转后改变）
+### [寻找两个正序数组的中位数](https://leetcode.cn/problems/median-of-two-sorted-arrays/)
+
+```java
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+        int[] nums = new int[m+n];
+        int i = 0;
+        int j = 0;
+        int index = 0;
+        while(i < m && j < n) {
+            if(nums1[i] > nums2[j]) {
+                nums[index++] = nums2[j++];
+            }else{
+                nums[index++] = nums1[i++];
+            }
+        }
+        while (i < m) {
+            nums[index++] = nums1[i++];
+        }
+        while (j < n) {
+            nums[index++] = nums2[j++];
+        }
+        if(index % 2 == 0) {
+            return (nums[(m+n) / 2] + nums[(m+n) / 2 - 1]) * 1.0 / 2;
+        }
+        return nums[(m+n) / 2] * 1.0;
+    }
+}
+```
+
+- 先归并后判断
+## 栈
+
+### [有效的括号](https://leetcode.cn/problems/valid-parentheses/)
+
+```java
+class Solution {
+    public boolean isValid(String s) {
+        int n = s.length();
+        if (n % 2 == 1) {
+            return false;
+        }
+        Map<Character, Character> pairs = new HashMap<Character, Character>() {{
+            put(')', '(');
+            put(']', '[');
+            put('}', '{');
+        }};
+        Deque<Character> stack = new LinkedList<Character>();
+        for (int i = 0; i < n; i++) {
+            char ch = s.charAt(i);
+            if (pairs.containsKey(ch)) {
+                if (stack.isEmpty() || stack.peek() != pairs.get(ch)) {
+                    return false;
+                }
+                stack.pop();
+            } else {
+                stack.push(ch);
+            }
+        }
+        return stack.isEmpty();
+    }
+}
+```
+
+- 利用栈的先进后出特性
+### [最小栈](https://leetcode.cn/problems/min-stack/)
+
+方法一：
+
+```java
+class MinStack {
+    Deque<Integer> xStack;
+    Deque<Integer> minStack;
+
+    public MinStack() {
+        xStack = new LinkedList<Integer>();
+        minStack = new LinkedList<Integer>();
+        minStack.push(Integer.MAX_VALUE);
+    }
+    
+    public void push(int x) {
+        xStack.push(x);
+        minStack.push(Math.min(minStack.peek(), x));
+    }
+    
+    public void pop() {
+        xStack.pop();
+        minStack.pop();
+    }
+    
+    public int top() {
+        return xStack.peek();
+    }
+    
+    public int getMin() {
+        return minStack.peek();
+    }
+}
+```
+
+- 利用一个辅助栈记录每一个进栈元素对应的当前最小值
+
+方法二：
+
+```java
+class MinStack {
+    private Deque<Long> stack;
+    private long minValue;
+
+    public MinStack() {
+        stack = new LinkedList<>();
+    }
+    
+    public void push(int val) {
+        if (stack.isEmpty()) {
+            minValue = val;
+            stack.push(0L);
+        } else {
+            long diff = (long) val - minValue;
+            stack.push(diff);
+            if (diff < 0) {
+                minValue = val;
+            }
+        }
+    }
+    
+    public void pop() {
+        if (!stack.isEmpty()) {
+            long diff = stack.pop();
+            if (diff < 0) {
+                minValue = minValue - diff;
+            }
+        }
+    }
+    
+    public int top() {
+        long diff = stack.peek();
+        if (diff >= 0) {
+            return (int) (minValue + diff);
+        } else {
+            return (int) minValue;
+        }
+    }
+    
+    public int getMin() {
+        return (int) minValue;
+    }
+}
+```
+
+- 通过 `long diff = (long) val - minValue` 来达到同样效果，注意当栈为空时需要 `stack.push(0L);`，来统一通过 diff 获取栈顶值。
+### [字符串解码](https://leetcode.cn/problems/decode-string/)
+
+```java
+class Solution {
+    public String decodeString(String s) {
+        Deque<Character> stack = new LinkedList<>();
+        
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c != ']') {
+                stack.push(c);
+            } else {
+                // 1. 提取字母
+                StringBuilder strBuilder = new StringBuilder();
+                while (!stack.isEmpty() && stack.peek() != '[') {
+                    strBuilder.append(stack.pop());
+                }
+                String str = strBuilder.reverse().toString(); // 反转回正确顺序
+                
+                // 2. 移除 '['
+                if (!stack.isEmpty()) stack.pop();
+                
+                // 3. 提取数字（可能是多位数）
+                StringBuilder numBuilder = new StringBuilder();
+                while (!stack.isEmpty() && Character.isDigit(stack.peek())) {
+                    numBuilder.append(stack.pop());
+                }
+                int times = Integer.parseInt(numBuilder.reverse().toString()); // 反转回正确顺序
+                
+                // 4. 重复字符串并重新压入栈中
+                String repeated = str.repeat(times);
+                for (int j = 0; j < repeated.length(); j++) {
+                    stack.push(repeated.charAt(j));
+                }
+            }
+        }
+        
+        // 构建最终结果
+        StringBuilder res = new StringBuilder();
+        while (!stack.isEmpty()) {
+            res.append(stack.pop());
+        }
+        return res.reverse().toString(); // 需要反转，因为栈是后进先出
+    }
+}
+```
+
+- 模拟
+- 注意字符出栈后需要反转，其次提取的数字可能十多位数（也需要反转）
+### [每日温度](https://leetcode.cn/problems/daily-temperatures/)
+
+```java
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        int n = temperatures.length;
+        Deque<Integer> stack = new LinkedList<>();
+        int[] res = new int[n];
+        for(int i = n-1; i >= 0; i--) {
+            if(stack.isEmpty()) {
+                res[i] = 0;
+            }else{
+                while(!stack.isEmpty() && temperatures[stack.peek()] <= temperatures[i]) {
+                    stack.pop();
+                }
+                res[i] = stack.isEmpty() ? 0 : stack.peek() - i;         
+            }
+            // 保存元素 index,方便计算相差天数
+            stack.push(i);
+        }
+        return res;
+    }
+}
+```
+
+- 单调栈，减少中间无意义的比对
+- 通过保存元素 index 计算天数
+### [柱状图中最大的矩形](https://leetcode.cn/problems/largest-rectangle-in-histogram/)
+
+```java
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+        if(n == 1) return heights[0];
+        int[] left = new int[n];
+        int[] rigth = new int[n];
+        Deque<Integer> stack = new LinkedList<>();
+        for(int i = n-1; i >= 0; i--) {
+            if(stack.isEmpty()) {
+                rigth[i] = n - i - 1;
+            }else{
+                while(!stack.isEmpty() && heights[i] <= heights[stack.peek()]) {
+                    stack.pop();
+                }
+                rigth[i] = stack.isEmpty() ? n - i - 1 : stack.peek() - i - 1;
+            }
+            stack.push(i);
+        }
+        stack.clear();
+        for(int i = 0; i < n; i++) {
+            if(stack.isEmpty()) {
+                left[i] = i;
+            }else{
+                while(!stack.isEmpty() && heights[i] <= heights[stack.peek()]) {
+                    stack.pop();
+                }
+                left[i] = stack.isEmpty() ? i : i - stack.peek() - 1;
+            }
+            stack.push(i);
+        }
+        int max = Integer.MIN_VALUE;
+        for(int i = 0; i < n; i++) {
+            max = Math.max(max,heights[i] * (1 + left[i] + rigth[i]));
+        }
+
+        return max;
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/largest-rectangle-in-histogram/solutions/2695467/dan-diao-zhan-fu-ti-dan-pythonjavacgojsr-89s7/?envType=study-plan-v2&envId=top-100-liked)
+- 先理解暴力做法：枚举每个`heights[i]`然后求最大宽度，也就是向左/右遍历找最近小于`heights[i]`的位置
+- 单调栈做法：通过单调栈减少不必要的比较（只需要找小于`heights[i]`最近的索引）
+## 堆
+
+### [数组中的第K个最大元素](https://leetcode.cn/problems/kth-largest-element-in-an-array/)
+
+快速排序板子：
+
+```java
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        quicksort(nums,0,nums.length - 1);
+        return nums[nums.length - k];
+    }
+    
+    public void quicksort(int[] nums,int left,int right) {
+        if(left >= right) {
+            return;
+        }
+        // 求基准值
+        setPivot(nums,left,right);
+        // 分区
+        int pivotIndex = partition(nums,left,right);
+        quicksort(nums,left,pivotIndex - 1);
+        quicksort(nums,pivotIndex + 1,right);
+    }
+
+    // 挖坑法分区
+    public int partition(int[] nums, int left, int right) {
+    int pivot = nums[left];
+    int i = left;
+    int j = right;
+    while (i < j) {
+        while (i < j && nums[j] >= pivot) {
+            j--;
+        }
+        if (i < j) {
+            nums[i] = nums[j];
+            i++;
+        }
+        while (i < j && nums[i] <= pivot) {
+            i++;
+        }
+        if (i < j) {
+            nums[j] = nums[i];
+            j--;
+        }
+    }
+    // 循环结束时，i 和 j 相遇，此时 i (或 j) 就是 pivot 最终的位置
+    nums[i] = pivot;
+    return i;
+}
+
+    // 三数取中法取 pivot,然后设置 nums[left] = pivot;
+    public void setPivot(int[] nums,int left,int right) {
+        int valLeft = nums[left];
+        int valRight = nums[right];
+        int valMid = nums[left + (right - left) / 2];
+        int maxVal = Math.max(valLeft, Math.max(valRight, valMid));
+        int minVal = Math.min(valLeft, Math.min(valRight, valMid));
+        nums[left] = valLeft + valRight + valMid - maxVal - minVal;
+        if(nums[left] == valLeft) return;
+        if(nums[left] == valRight) {
+            nums[right] = valLeft;
+            return;
+        }
+        nums[left + (right - left) / 2] = valLeft;
+    }
+}
+```
+
+- 时间复杂度：$O(NlogN)$
+- 需要知道每次选取的基准值在分区后的位置不会再改变
+- 不稳定排序
+
+快速选择算法：
+
+```java
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        return quickselect(nums, 0, nums.length - 1, nums.length - k);
+    }
+    
+    public int quickselect(int[] nums,int left,int right,int targetIndex) {
+        if(left >= right) {
+            return nums[left];
+        }
+        // 设置 nums[left] = pivot
+        setPivot(nums,left,right);
+        // 分区
+        int pivotIndex = partition(nums,left,right);
+        // 选择分区
+        if(pivotIndex == targetIndex) {
+            return nums[pivotIndex];
+        }else if(pivotIndex < targetIndex) {
+            return quickselect(nums,pivotIndex + 1,right,targetIndex);
+        }else {
+            return quickselect(nums,left,pivotIndex - 1,targetIndex);
+        }
+    }
+
+    // 挖坑法
+    public int partition(int[] nums, int left, int right) {
+    int pivot = nums[left];
+    int i = left;
+    int j = right;
+    while (i < j) {
+        while (i < j && nums[j] >= pivot) {
+            j--;
+        }
+        if (i < j) {
+            nums[i] = nums[j];
+            i++;
+        }
+        while (i < j && nums[i] <= pivot) {
+            i++;
+        }
+        if (i < j) {
+            nums[j] = nums[i];
+            j--;
+        }
+    }
+    // 循环结束时，i 和 j 相遇，此时 i (或 j) 就是 pivot 最终的位置
+    nums[i] = pivot;
+    return i;
+}
+
+    // 三数取中法求 pivot
+    public void setPivot(int[] nums,int left,int right) {
+        int valLeft = nums[left];
+        int valRight = nums[right];
+        int valMid = nums[left + (right - left) / 2];
+        int maxVal = Math.max(valLeft, Math.max(valRight, valMid));
+        int minVal = Math.min(valLeft, Math.min(valRight, valMid));
+        nums[left] = valLeft + valRight + valMid - maxVal - minVal;
+        if(nums[left] == valLeft) return;
+        if(nums[left] == valRight) {
+            nums[right] = valLeft;
+            return;
+        }
+        nums[left + (right - left) / 2] = valLeft;
+    }
+}
+```
+
+- 根据基准值的索引和目标索引判断来选择性的分区
+- 时间复杂度近似 $O(N)$
+- 本题还可以用堆排序，$O(NlogK)$
+### [前 K 个高频元素](https://leetcode.cn/problems/top-k-frequent-elements/)
+
+方法一：
+
+```java
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        // 统计频率
+        Map<Integer,Integer> map = new HashMap<>();
+        int n = nums.length;
+        for(int i = 0; i < n; i++) {
+            map.put(nums[i],map.getOrDefault(nums[i],0) + 1);
+        }
+        List<int[]> values = new ArrayList<int[]>();
+        for(Map.Entry<Integer,Integer> entry : map.entrySet()) {
+            int key = entry.getKey();
+            int count = entry.getValue();
+            values.add(new int[]{key, count});
+        }
+        // 快选
+        int m = values.size();
+        quickselect(values,0,m - 1,m - k);
+        // 收集
+        int[] res = new int[k];
+        for(int i = 0; i < k; i++) {
+            res[i] = values.get(m - k + i)[0];
+        }
+        return res;
+    }
+    
+    public void quickselect(List<int[]> nums,int left,int right,int targetIndex) {
+        if(left >= right) {
+            return;
+        }
+        // 设置 nums[left] = pivot
+        setPivot(nums,left,right);
+        // 分区
+        int pivotIndex = partition(nums,left,right);
+        // 选择分区
+        if(pivotIndex == targetIndex) {
+            return;
+        }else if(pivotIndex < targetIndex) {
+            quickselect(nums,pivotIndex + 1,right,targetIndex);
+        }else {
+            quickselect(nums,left,pivotIndex - 1,targetIndex);
+        }
+    }
+
+    // 挖坑法
+    public int partition(List<int[]> nums, int left, int right) {
+        int[] pivot = nums.get(left);
+        int i = left;
+        int j = right;
+        while (i < j) {
+            while (i < j && nums.get(j)[1] >= pivot[1]) {
+                j--;
+            }
+            if (i < j) {
+                nums.set(i,nums.get(j));
+                i++;
+            }
+            while (i < j && nums.get(i)[1] <= pivot[1]) {
+                i++;
+            }         
+            if (i < j) {
+                nums.set(j,nums.get(i));
+                j--;
+            }
+        }
+        // 循环结束时，i 和 j 相遇，此时 i (或 j) 就是 pivot 最终的位置
+        nums.set(i,pivot); 
+        return i;
+    }
+
+    // 三数取中法求 pivot，并将其交换到 left 位置
+    public void setPivot(List<int[]> nums, int left, int right) {
+        if (left >= right) return;
+        int mid = left + (right - left) / 2;
+        // 确保 nums.get(left).freq <= nums.get(mid).freq <= nums.get(right).freq
+        if (nums.get(left)[1] > nums.get(mid)[1]) {
+            swap(nums, left, mid);
+        }
+        if (nums.get(left)[1] > nums.get(right)[1]) {
+            swap(nums, left, right);
+        }
+        if (nums.get(mid)[1] > nums.get(right)[1]) {
+            swap(nums, mid, right);
+        }
+        swap(nums, left, mid);
+    }
+    // 辅助交换函数
+    public void swap(List<int[]> nums, int i, int j) {
+        int[] temp = nums.get(i);
+        nums.set(i, nums.get(j));
+        nums.set(j, temp);
+    }
+}
+```
+
+- 快选，targetIndex 前面的元素一定是前 k 个高频率元素
+- 通过排序集合，元素数组可以在排序后知道当前频率对应的 key
+- 注意，通过传递集合排序，分区和取 pivot 时需要交换的应该是数组
+
+方法二：
+
+```java
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> occurrences = new HashMap<Integer, Integer>();
+        for (int num : nums) {
+            occurrences.put(num, occurrences.getOrDefault(num, 0) + 1);
+        }
+
+        // int[] 的第一个元素代表数组的值，第二个元素代表了该值出现的次数
+        PriorityQueue<int[]> queue = new PriorityQueue<int[]>(new Comparator<int[]>() {
+            public int compare(int[] m, int[] n) {
+                return m[1] - n[1];
+            }
+        });
+        for (Map.Entry<Integer, Integer> entry : occurrences.entrySet()) {
+            int num = entry.getKey(), count = entry.getValue();
+            // 维护前k个高频数组元素
+            if (queue.size() == k) {
+                if (queue.peek()[1] < count) {
+                    queue.poll();
+                    queue.offer(new int[]{num, count});
+                }
+            } else {
+                queue.offer(new int[]{num, count});
+            }
+        }
+        int[] ret = new int[k];
+        for (int i = 0; i < k; ++i) {
+            ret[i] = queue.poll()[0];
+        }
+        return ret;
+    }
+}
+```
+
+- [题解](https://www.bilibili.com/video/BV1Xg41167Lz?vd_source=7341c7fca3b496e9108bb1fd49c634ef)
+- 利用小根堆的性质，堆顶一定是当前 k 个元素最小值来判断
+### [数据流的中位数](https://leetcode.cn/problems/find-median-from-data-stream/)
+
+```java
+class MedianFinder {
+    private final PriorityQueue<Integer> left = new PriorityQueue<>((a, b) -> b - a); // 最大堆
+    private final PriorityQueue<Integer> right = new PriorityQueue<>(); // 最小堆
+
+    public void addNum(int num) {
+        if (left.size() == right.size()) {
+            right.offer(num);
+            left.offer(right.poll());
+        } else {
+            left.offer(num);
+            right.offer(left.poll());
+        }
+    }
+
+    public double findMedian() {
+        if (left.size() > right.size()) {
+            return left.peek();
+        }
+        return (left.peek() + right.peek()) / 2.0;
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/find-median-from-data-stream/solutions/3015873/ru-he-zi-ran-yin-ru-da-xiao-dui-jian-ji-4v22k/?envType=study-plan-v2&envId=top-100-liked)
+- 大根堆+小根堆
+## 贪心
+### [买卖股票的最佳时机](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/)
+
+```java
+class Solution {
+    public int maxProfit(int[] prices) {
+        int res = 0;
+        int n = prices.length;
+        int max = prices[n - 1];
+        for(int i = n - 1; i >= 0; i--) {
+            if(prices[i] < max) {
+                res = Math.max(res,max - prices[i]);
+            }else{
+                max = prices[i];
+            }
+        }
+        return res;
+    }
+}
+```
+
+- 当天买入的最佳利润应该等后续股票价格的最大值减去当天的价格，也就是 $max - prices[i]$，所以维护 i 之后的股票价格即可
+### [跳跃游戏](https://leetcode.cn/problems/jump-game/)
+
+```java
+class Solution {
+    public boolean canJump(int[] nums) {
+        int n = nums.length;
+        int idx = n - 1;
+        for(int i = n - 2; i >= 0; i --) {
+            if(i + nums[i] >= idx) {
+                idx = i;
+            }
+        }
+        return idx == 0;
+    }
+}
+```
+
+- 从后向前遍历，如果当前位置移动的最远距离大于等于目标位置（idx），则能否从 0 到 idx 变为了求从 0 到 i
