@@ -116,8 +116,7 @@ date: 2025-09-27
 其中`@EnableAutoConfiguration`是关键（启用自动配置），内部实际上就去加载`META-INF/spring.factories`文件的信息，然后筛选出以`EnableAutoConfiguration`为 key 的数据，加载到 IOC 容器中，实现自动配置功能！
 
 ![](https://cdn.img.turingzy.cn/2025/Pasted%20image%2020250421155006.png)
-
-## 参考
+# 参考
 
 - [SpringBoot-The @SpringBootApplication Annotation](https://docs.spring.io/spring-boot/tutorial/first-application/index.html#getting-started.first-application.code.spring-boot-application)
 - [SpringBoot自动配置原理！](https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484637&idx=1&sn=956c14daacc3e09367d9c27458b09f7f&chksm=ebd745dcdca0ccca6c173d32b6f8299f61d950990ee7c6eb2ec676f5ce0ad9b0ba306306a952###rd)
