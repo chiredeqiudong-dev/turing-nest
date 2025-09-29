@@ -42,11 +42,11 @@ theme = 'yinyang'
   name = "Home"
   link = "https://turingzy.cn/"
 [[params.socials]]
-  name = "Projects"
-  link = "/projects/"
+  name = "Games"
+  link = "/games/"
 [[params.socials]]
   name = "About"
   link = "/about/"
-  [[params.socials]]
+[[params.socials]]
   name = "RSS"
   link = "https://blog.turingzy.cn/index.xml"

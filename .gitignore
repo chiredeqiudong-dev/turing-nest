@@ -5,3 +5,6 @@ public/
 hugo.exe
 hugo.linux
 hugo.darwin
+
+# 脚本
+scripts/

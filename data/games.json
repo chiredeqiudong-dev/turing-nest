@@ -1,0 +1,194 @@
+{
+  "total": 27,
+  "games": [
+    {
+      "name": "Counter-Strike 2",
+      "playtime_forever": 354.1,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/730/8dbc71957312bbd3baea65848b545be9eae2a355.jpg",
+      "last_played": "2025-09-28 22:29:24",
+      "app_url": "https://store.steampowered.com/app/730/"
+    },
+    {
+      "name": "Left 4 Dead 2",
+      "playtime_forever": 10.3,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/550/7d5a243f9500d2f8467312822f8af2a2928777ed.jpg",
+      "last_played": "2024-01-11 03:32:23",
+      "app_url": "https://store.steampowered.com/app/550/"
+    },
+    {
+      "name": "Assassin's Creed II",
+      "playtime_forever": 9.5,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/33230/0492d8ee860ac99168e46efeb003029c3224cb38.jpg",
+      "last_played": "2024-05-12 19:52:05",
+      "app_url": "https://store.steampowered.com/app/33230/"
+    },
+    {
+      "name": "Wallpaper Engine",
+      "playtime_forever": 6.5,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/431960/72edaed9d748c6cf7397ffb1c83f0b837b9ebd9d.jpg",
+      "last_played": "2025-08-20 00:03:03",
+      "app_url": "https://store.steampowered.com/app/431960/"
+    },
+    {
+      "name": "The Witcher 3: Wild Hunt",
+      "playtime_forever": 4.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/292030/78d0ff98b67851f24539cdf2402cf147679134f4.jpg",
+      "last_played": "2024-07-29 15:01:12",
+      "app_url": "https://store.steampowered.com/app/292030/"
+    },
+    {
+      "name": "Lethal Company",
+      "playtime_forever": 3.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/1966720/8393f321a62a9ef0be762c81565d2caea4fb7da6.jpg",
+      "last_played": "2024-03-24 21:42:26",
+      "app_url": "https://store.steampowered.com/app/1966720/"
+    },
+    {
+      "name": "The Forest",
+      "playtime_forever": 2.9,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/242760/3a6847f6ac5879e48531db52261771d5e22904ac.jpg",
+      "last_played": "2024-01-01 15:39:51",
+      "app_url": "https://store.steampowered.com/app/242760/"
+    },
+    {
+      "name": "This War of Mine",
+      "playtime_forever": 1.8,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/282070/38ad6fd10e2b89ab24e8013584ece7961bebe086.jpg",
+      "last_played": "2025-09-03 11:10:52",
+      "app_url": "https://store.steampowered.com/app/282070/"
+    },
+    {
+      "name": "ATRI -My Dear Moments-",
+      "playtime_forever": 1.7,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/1230140/40e9052985afac2661d5391a8a74ff1e2d837fdf.jpg",
+      "last_played": "2025-04-05 09:51:11",
+      "app_url": "https://store.steampowered.com/app/1230140/"
+    },
+    {
+      "name": "Content Warning",
+      "playtime_forever": 1.7,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/2881650/513cf7f2e22c94f4372369e29bffccc4c239e9c0.jpg",
+      "last_played": "2024-04-04 00:26:49",
+      "app_url": "https://store.steampowered.com/app/2881650/"
+    },
+    {
+      "name": "Goose Goose Duck",
+      "playtime_forever": 1.6,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/1568590/3b802d5010d6d5d72c93a8565b260c6042cc9390.jpg",
+      "last_played": "2023-12-31 15:19:05",
+      "app_url": "https://store.steampowered.com/app/1568590/"
+    },
+    {
+      "name": "The Hungry Lamb: Traveling in the Late Ming Dynasty",
+      "playtime_forever": 1.2,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/2593370/54a7574438ba0458909b1879bfca1c1992b839a4.jpg",
+      "last_played": "2024-07-05 19:46:13",
+      "app_url": "https://store.steampowered.com/app/2593370/"
+    },
+    {
+      "name": "Left 4 Dead",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/500/428df26bc35b09319e31b1ffb712487b20b3245c.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/500/"
+    },
+    {
+      "name": "Hitman: Absolution",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/203140/fe5e36ac1548793eb48b6b25b701b37d86fb94a3.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/203140/"
+    },
+    {
+      "name": "Hitman: Sniper Challenge",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/205930/756d0ca797b4c8a1340dd73bf49b0bb0656a1802.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/205930/"
+    },
+    {
+      "name": "Batman™: Arkham Knight",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/208650/f6c2ce13796844750dfbd01685fb009eeac4bf70.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/208650/"
+    },
+    {
+      "name": "100% Orange Juice",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/282800/baaf4be38deeb8a631567ee6c651ca23b65c834a.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/282800/"
+    },
+    {
+      "name": "Kingdom Come: Deliverance",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/379430/915ec515c36645855abed0476b5b0891d8a4e47a.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/379430/"
+    },
+    {
+      "name": "Rise of the Tomb Raider",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/391220/0b8a37f32ed2b7c934be8aa94d53f71e274c6497.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/391220/"
+    },
+    {
+      "name": "STEINS;GATE",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/412830/adddf0c18983e5b0e2a8967939a774a201589674.jpg",
+      "last_played": "2025-04-05 09:54:40",
+      "app_url": "https://store.steampowered.com/app/412830/"
+    },
+    {
+      "name": "Assassin's Creed Origins",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/582160/dff3a53f93d39f1e0432ec4f22d31c12aeefa36f.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/582160/"
+    },
+    {
+      "name": "Desperados III",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/610370/3f8d3ff835397cb30ee44693757456060946de63.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/610370/"
+    },
+    {
+      "name": "Paradox Soul",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/610570/c6279c40ef6ab4e794eafd61e61be4f6f5f2f270.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/610570/"
+    },
+    {
+      "name": "Red Dead Redemption 2",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/1174180/5106abd9c1187a97f23295a0ba9470c94804ec6c.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/1174180/"
+    },
+    {
+      "name": "Street Fighter™ 6",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/1364780/d8057ee15238077329f869c1610e257461ab3f76.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/1364780/"
+    },
+    {
+      "name": "Hellslave",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/1608450/733a62d2f790189f9cecb01bebf8e014a231a86e.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/1608450/"
+    },
+    {
+      "name": "Commando Collection",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/3059010/a0129ebbc9755c132a19664cdcc1c703a669a031.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/3059010/"
+    }
+  ]
+}
