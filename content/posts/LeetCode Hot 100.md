@@ -1163,6 +1163,83 @@ class Solution {
 - 归并排序 + 求链表中间节点的双指针算法
 ### [合并 K 个升序链表](https://leetcode.cn/problems/merge-k-sorted-lists/)
 
+方法一：
+
+```java
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        ListNode ans = null;
+        for (int i = 0; i < lists.length; ++i) {
+            ans = mergeTwoLists(ans, lists[i]);
+        }
+        return ans;
+    }
+
+    public ListNode mergeTwoLists(ListNode a, ListNode b) {
+        if (a == null || b == null) {
+            return a != null ? a : b;
+        }
+        ListNode head = new ListNode(0);
+        ListNode tail = head, aPtr = a, bPtr = b;
+        while (aPtr != null && bPtr != null) {
+            if (aPtr.val < bPtr.val) {
+                tail.next = aPtr;
+                aPtr = aPtr.next;
+            } else {
+                tail.next = bPtr;
+                bPtr = bPtr.next;
+            }
+            tail = tail.next;
+        }
+        tail.next = (aPtr != null ? aPtr : bPtr);
+        return head.next;
+    }
+}
+```
+
+方法二：
+
+```java
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        return merge(lists, 0, lists.length - 1);
+    }
+
+    public ListNode merge(ListNode[] lists, int l, int r) {
+        if (l == r) {
+            return lists[l];
+        }
+        if (l > r) {
+            return null;
+        }
+        int mid = (l + r) >> 1;
+        return mergeTwoLists(merge(lists, l, mid), merge(lists, mid + 1, r));
+    }
+
+    public ListNode mergeTwoLists(ListNode a, ListNode b) {
+        if (a == null || b == null) {
+            return a != null ? a : b;
+        }
+        ListNode head = new ListNode(0);
+        ListNode tail = head, aPtr = a, bPtr = b;
+        while (aPtr != null && bPtr != null) {
+            if (aPtr.val < bPtr.val) {
+                tail.next = aPtr;
+                aPtr = aPtr.next;
+            } else {
+                tail.next = bPtr;
+                bPtr = bPtr.next;
+            }
+            tail = tail.next;
+        }
+        tail.next = (aPtr != null ? aPtr : bPtr);
+        return head.next;
+    }
+}
+```
+
+方法三：
+
 ```java
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
@@ -1219,7 +1296,13 @@ class Solution {
 }
 ```
 
-- 拼接后归并排序整个链表
+- [题解](https://leetcode.cn/problems/merge-k-sorted-lists/solutions/219756/he-bing-kge-pai-xu-lian-biao-by-leetcode-solutio-2/)
+- 1、顺序合并（参考合并两个升序链表）
+- 2、分治合并（如下图）
+- 3、拼接整个数组后，归并排序整个链表
+
+![](https://cdn.img.turingzy.cn/2025/20251002.webp)
+
 ### [LRU 缓存](https://leetcode.cn/problems/lru-cache/)
 
 ```java
@@ -1309,7 +1392,103 @@ public class LRUCache {
 ```
 
 - [题解](https://leetcode.cn/problems/lru-cache/solutions/259678/lruhuan-cun-ji-zhi-by-leetcode-solution/?envType=study-plan-v2&envId=top-100-liked)
-- 哈希表+双向链表，通过双向链表维持 [LRU (最近最少使用) 缓存](https://baike.baidu.com/item/LRU) 。
+- 哈希表 + 双向链表，通过双向链表维持 [LRU (最近最少使用) 缓存](https://baike.baidu.com/item/LRU) 。
+### [LFU 缓存](https://leetcode.cn/problems/lfu-cache/)
+
+```java
+class LFUCache {
+    private static class Node {
+        int key, value, freq = 1; // 新书只读了一次
+        Node prev, next;
+
+        Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    private final int capacity;
+    private final Map<Integer, Node> keyToNode = new HashMap<>();
+    private final Map<Integer, Node> freqToDummy = new HashMap<>();
+    private int minFreq;
+
+    public LFUCache(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int get(int key) {
+        Node node = getNode(key);
+        return node != null ? node.value : -1;
+    }
+
+    public void put(int key, int value) {
+        Node node = getNode(key);
+        if (node != null) { // 有这本书
+            node.value = value; // 更新 value
+            return;
+        }
+        if (keyToNode.size() == capacity) { // 书太多了
+            Node dummy = freqToDummy.get(minFreq);
+            Node backNode = dummy.prev; // 最左边那摞书的最下面的书
+            keyToNode.remove(backNode.key);
+            remove(backNode); // 移除
+            if (dummy.prev == dummy) { // 这摞书是空的
+                freqToDummy.remove(minFreq); // 移除空链表
+            }
+        }
+        node = new Node(key, value); // 新书
+        keyToNode.put(key, node);
+        pushFront(1, node); // 放在「看过 1 次」的最上面
+        minFreq = 1;
+    }
+
+    private Node getNode(int key) {
+        if (!keyToNode.containsKey(key)) { // 没有这本书
+            return null;
+        }
+        Node node = keyToNode.get(key); // 有这本书
+        remove(node); // 把这本书抽出来
+        Node dummy = freqToDummy.get(node.freq);
+        if (dummy.prev == dummy) { // 抽出来后，这摞书是空的
+            freqToDummy.remove(node.freq); // 移除空链表
+            if (minFreq == node.freq) { // 这摞书是最左边的
+                minFreq++;
+            }
+        }
+        node.freq++; // 看书次数 +1
+        pushFront(node.freq, node); // 放在右边这摞书的最上面
+        return node;
+    }
+
+    // 创建一个新的双向链表
+    private Node newList() {
+        Node dummy = new Node(0, 0); // 哨兵节点
+        dummy.prev = dummy;
+        dummy.next = dummy;
+        return dummy;
+    }
+
+    // 在链表头添加一个节点（把一本书放到最上面）
+    private void pushFront(int freq, Node x) {
+        Node dummy = freqToDummy.computeIfAbsent(freq, k -> newList());
+        x.prev = dummy;
+        x.next = dummy.next;
+        x.prev.next = x;
+        x.next.prev = x;
+    }
+
+    // 删除一个节点（抽出一本书）
+    private void remove(Node x) {
+        x.prev.next = x.next;
+        x.next.prev = x.prev;
+    }
+}
+
+```
+
+- [题解](https://leetcode.cn/problems/lfu-cache/solutions/2457716/tu-jie-yi-zhang-tu-miao-dong-lfupythonja-f56h/)
+- 哈希表（分别维护 KEY -> Node，Freq -> NodeHead）+ 双向链表， [最不经常使用（LFU）](https://baike.baidu.com/item/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95)。
+
 ## 二叉树
 
 ### 二叉树的遍历-7种
@@ -3315,3 +3494,157 @@ class Solution {
 ```
 
 - 从后向前遍历，如果当前位置移动的最远距离大于等于目标位置（idx），则能否从 0 到 idx 变为了求从 0 到 i
+### [跳跃游戏 II](https://leetcode.cn/problems/jump-game-ii/)
+
+```java
+class Solution {
+    public int jump(int[] nums) {
+        int n = nums.length;
+        int t = n - 1;
+        int res = 0;
+        for(int i = 0; i < n-1; i++) {
+            if(i + nums[i] >= t) {
+                t = i;
+                res ++;
+                i = -1;
+            }
+            if(t == 0) {
+                break;
+            }
+        }
+        return res;
+    }
+}
+```
+
+- 每次都从头走，找到可以到达 t 的最近 i，直到 i = 0。
+### [划分字母区间](https://leetcode.cn/problems/partition-labels/)
+
+```java
+class Solution {
+    public List<Integer> partitionLabels(String S) {
+        char[] s = S.toCharArray();
+        int n = s.length;
+        int[] last = new int[26];
+        for (int i = 0; i < n; i++) {
+            last[s[i] - 'a'] = i; // 每个字母最后出现的下标
+        }
+
+        List<Integer> ans = new ArrayList<>();
+        int start = 0, end = 0;
+        for (int i = 0; i < n; i++) {
+            end = Math.max(end, last[s[i] - 'a']); // 更新当前区间右端点的最大值
+            if (end == i) { // 当前区间合并完毕
+                ans.add(end - start + 1); // 区间长度加入答案
+                start = i + 1; // 下一个区间的左端点
+            }
+        }
+        return ans;
+    }
+}
+
+// 同样的方法，不过这个思路简单
+
+class Solution {
+    public List<Integer> partitionLabels(String s) {
+         List<Integer> res = new ArrayList<>();
+         int n = s.length();
+         int next = -1;
+         int last = 0;
+         for(int i = 0; i < n; i ++) {
+            char c = s.charAt(i);
+            next = Math.max(next,s.lastIndexOf(c));
+            if(i == next) {
+                res.add(next - last + 1);
+                last = next + 1;
+                next = -1;
+            }
+        }
+        return res;
+    }
+}
+```
+
+- [题解](https://leetcode.cn/problems/partition-labels/solutions/2806706/ben-zhi-shi-he-bing-qu-jian-jian-ji-xie-ygsn8/?envType=study-plan-v2&envId=top-100-liked)
+- 合并区间
+- 第二个方法，next 是我们字符放的最远的位置， last 是划分字符串之前的位置；当 i = next 时，说明后面不再会出现前面的相同字符。第一个相当于优化了 `s.lastIndexOf(c)` 求解。
+## 动态规划
+
+### 背包问题
+
+DFS -> 记忆化搜索 -> 递推（将 DFS 1:1 翻译） -> 空间优化。
+
+如何确定递归边界、递归入口等。
+
+关键中在于 $dfs(i,v) = Math.max(dfs(i-1,v),dfs(i-1,v-nums[i]) + value[i])$ 这个转移方程。
+
+完全背包：$dfs(i,v) = Math.max(dfs(i-1,v),dfs(i,v-nums[i]) + value[i])$ 。
+
+### [爬楼梯](https://leetcode.cn/problems/climbing-stairs/)
+
+```java
+class Solution {
+    public int climbStairs(int n) {
+        if (n == 0) {
+            return 0; // 或者根据题目定义，如果 n=0 算作 1 种方法（不走）
+        }
+        if (n == 1) {
+            return 1;
+        }
+        // dp[i] 存储到达第 i 级台阶的方法数
+        int[] dp = new int[n + 1];
+        // 基本情况
+        dp[0] = 1; // 理论上到达第0级台阶只有一种方法（不走），方便计算dp[2]
+        dp[1] = 1; // 到达第1级台阶只有一种方法 (1步)
+        // 从第2级台阶开始计算
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+
+        return dp[n];
+    }
+}
+```
+
+- 斐波那契数列
+### [杨辉三角](https://leetcode.cn/problems/pascals-triangle/)
+
+```java
+class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> res = new ArrayList<>(numRows);
+        res.add(List.of(1));
+        for(int i = 1; i < numRows; i++) {
+            List<Integer> list = new ArrayList<>(i+1);
+            list.add(1);
+            for(int j = 1; j < i; j++) {
+                // 左上方的数 + 正上方的数
+                list.add(res.get(i-1).get(j) + res.get(i-1).get(j-1));
+            }
+            list.add(1);
+            res.add(list);
+        }
+        return res;
+    }
+}
+```
+
+- 理解等式：$c[i][j]=c[i−1][j−1]+c[i−1][j]$，与 $(a+b)^n$ 求组合数系数一致。
+### [打家劫舍](https://leetcode.cn/problems/house-robber/)
+
+```java
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        // dp[i] 表示当天“抢和不抢”的最大利益
+        // 转移方程: 当天抢：dp[i] = nums[i] + dp[i+2]; 不抢 dp[i] = dp[i+1];
+        int[] dp = new int[n+1];
+        dp[n-1] = nums[n-1];
+        for(int i = n-2; i >= 0; i--) {
+            dp[i] = Math.max(nums[i] + dp[i+2],dp[i+1]);
+        }
+        return dp[0];
+    }
+}
+```
+
