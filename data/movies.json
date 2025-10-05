@@ -1,0 +1,18 @@
+{
+  "movies": [
+    {
+      "title": "疯狂的石头",
+      "poster": "https://cdn.img.turingzy.cn/2025/20251005234825.png",
+      "year": 2025,
+      "rating": 9,
+      "url": "https://movie.douban.com/subject/1862151/"
+    },
+    {
+      "title": "飞驰人生2",
+      "poster": "https://cdn.img.turingzy.cn/2025/20251005234048.png",
+      "year": 2025,
+      "rating": 6,
+      "url": "https://movie.douban.com/subject/36369452/"
+    }
+  ]
+}
