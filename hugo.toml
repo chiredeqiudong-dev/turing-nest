@@ -9,6 +9,12 @@ theme = 'yinyang'
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          # block = [['$', '$'],['$$','$$']]
+          inline = [['$', '$']]
   [markup.highlight]
     guessSyntax = true
     noClasses = true #使用行内样式
@@ -25,6 +31,7 @@ theme = 'yinyang'
   headTitle = "Yang Zhang"
   description = "「I came, I saw, I conquered」"
   lazyImage = true
+  math = true
   siteStartDate = "2025-06-01"
   # google tag.js
   extraHead = '<script async src="https://www.googletagmanager.com/gtag/js?id=G-66JHC5XMXL"></script>'

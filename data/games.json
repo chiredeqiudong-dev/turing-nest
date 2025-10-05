@@ -3,9 +3,9 @@
   "games": [
     {
       "name": "Counter-Strike 2",
-      "playtime_forever": 354.1,
+      "playtime_forever": 360.5,
       "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/730/8dbc71957312bbd3baea65848b545be9eae2a355.jpg",
-      "last_played": "2025-09-28 22:29:24",
+      "last_played": "2025-10-04 20:36:22",
       "app_url": "https://store.steampowered.com/app/730/"
     },
     {
@@ -91,6 +91,13 @@
       "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/2593370/54a7574438ba0458909b1879bfca1c1992b839a4.jpg",
       "last_played": "2024-07-05 19:46:13",
       "app_url": "https://store.steampowered.com/app/2593370/"
+    },
+    {
+      "name": "Commando Collection",
+      "playtime_forever": 0.4,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/3059010/a0129ebbc9755c132a19664cdcc1c703a669a031.jpg",
+      "last_played": "2025-09-30 13:25:50",
+      "app_url": "https://store.steampowered.com/app/3059010/"
     },
     {
       "name": "Left 4 Dead",
@@ -182,13 +189,6 @@
       "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/1608450/733a62d2f790189f9cecb01bebf8e014a231a86e.jpg",
       "last_played": "",
       "app_url": "https://store.steampowered.com/app/1608450/"
-    },
-    {
-      "name": "Commando Collection",
-      "playtime_forever": 0.0,
-      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/3059010/a0129ebbc9755c132a19664cdcc1c703a669a031.jpg",
-      "last_played": "",
-      "app_url": "https://store.steampowered.com/app/3059010/"
     }
   ]
 }
