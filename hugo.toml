@@ -2,6 +2,15 @@ baseURL = 'https://blog.turingzy.cn'
 languageCode = 'en-us'
 title = 'TuringNest'
 theme = 'yinyang'
+license = "MIT"
+tags = [
+  "blog",
+  "minimal",
+  "minimalist",
+  "simple",
+  "clean",
+  "personal"
+]
 
 [permalinks]
   posts = "/posts/:slug/"
