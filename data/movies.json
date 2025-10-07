@@ -8,13 +8,6 @@
       "url": "https://movie.douban.com/subject/1862151/"
     },
     {
-      "title": "无间道",
-      "poster": "https://cdn.img.turingzy.cn/2025/20251006090855.png",
-      "year": 2025,
-      "rating": 9,
-      "url": "https://movie.douban.com/subject/1307914/"
-    },
-    {
       "title": "盗梦空间",
       "poster": "https://cdn.img.turingzy.cn/2025/20251006091236.png",
       "year": 2025,
@@ -34,6 +27,55 @@
       "year": 2025,
       "rating": 6,
       "url": "https://movie.douban.com/subject/36369452/"
+    },
+    {
+      "title": "无间道",
+      "poster": "https://cdn.img.turingzy.cn/2025/20251006090855.png",
+      "year": 2025,
+      "rating": 9,
+      "url": "https://movie.douban.com/subject/1307914/"
+    },
+    {
+      "title": "让子弹飞",
+      "poster": "https://cdn.img.turingzy.cn/2025/202510071008509.png",
+      "year": 2025,
+      "rating": 9,
+      "url": "https://movie.douban.com/subject/3742360/"
+    },
+    {
+      "title": "导火线",
+      "poster": "https://cdn.img.turingzy.cn/2025/202510071010598.png",
+      "year": 2025,
+      "rating": 8,
+      "url": "https://movie.douban.com/subject/2044102/"
+    },
+    {
+      "title": "周处除三害",
+      "poster": "https://cdn.img.turingzy.cn/2025/202510071012403.png",
+      "year": 2025,
+      "rating": 6,
+      "url": "https://movie.douban.com/subject/36151692/"
+    },
+    {
+      "title": "误杀",
+      "poster": "https://cdn.img.turingzy.cn/2025/202510071013464.png",
+      "year": 2025,
+      "rating": 8,
+      "url": "https://movie.douban.com/subject/30176393/"
+    },
+    {
+      "title": "我不是药神",
+      "poster": "https://cdn.img.turingzy.cn/2025/202510071015222.png",
+      "year": 2025,
+      "rating": 8,
+      "url": "https://movie.douban.com/subject/26752088/"
+    },
+    {
+      "title": "唐人街探案",
+      "poster": "https://cdn.img.turingzy.cn/2025/202510071016896.png",
+      "year": 2025,
+      "rating": 8,
+      "url": "https://movie.douban.com/subject/26311973/"
     }
   ]
 }
