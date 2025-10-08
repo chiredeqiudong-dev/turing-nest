@@ -1,5 +1,5 @@
 ---
-title: Java 集合
+title: Java 并发
 slug: java-concurrent
 categories: Java
 date: 2025-10-08
