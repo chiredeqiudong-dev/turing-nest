@@ -3090,7 +3090,29 @@ class Solution {
 }
 ```
 
-- 单调栈，减少中间无意义的比对
+正序遍历方式
+
+```java
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        int length = temperatures.length;
+        int[] ans = new int[length];
+        Deque<Integer> stack = new LinkedList<Integer>();
+        for (int i = 0; i < length; i++) {
+            int temperature = temperatures[i];
+            while (!stack.isEmpty() && temperature > temperatures[stack.peek()]) {
+                int prevIndex = stack.pop();
+                ans[prevIndex] = i - prevIndex;
+            }
+            stack.push(i);
+        }
+        return ans;
+    }
+}
+```
+
+- [单调栈](https://www.bilibili.com/video/BV1my4y1Z7jj?vd_source=7341c7fca3b496e9108bb1fd49c634ef)，单调栈能够让不需要你需要走重复走的路。刚刚走过一遍的路可以造福后面找的人。
+- 对于求某元素左边和右边第一个比它大或第一个比它小的元素位置（值）时，都可以使用单调栈，比如说“接雨水”这题。
 - 通过保存元素 index 计算天数
 ### [柱状图中最大的矩形](https://leetcode.cn/problems/largest-rectangle-in-histogram/)
 
