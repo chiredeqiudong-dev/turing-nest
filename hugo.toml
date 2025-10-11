@@ -58,6 +58,9 @@ tags = [
   name = "Home"
   link = "https://turingzy.cn/"
 [[params.socials]]
+  name = "OneWord"
+  link = "/one-word/"
+[[params.socials]]
   name = "Games"
   link = "/games/"
 [[params.socials]]
