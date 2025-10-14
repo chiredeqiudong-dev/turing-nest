@@ -22,7 +22,7 @@ mysql> create table T(ID int primary key, c int);
 
 如果要将 ID=2 这一行的值加 1，SQL 语句就会这么写：
 
-```r
+```sql
 mysql> update T set c=c+1 where ID=2;
 ```
 
