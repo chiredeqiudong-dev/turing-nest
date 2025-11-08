@@ -10,7 +10,7 @@ date: 2025-10-28
 
 ## WebSite
 
-[Asyn-Area](https://async-area.com/) 独特风格的个人网站。
+[Async-Area](https://async-area.com/) 独特风格的个人网站。
 
 ![](https://cdn.img.turingzy.cn/2025/202511081112549.png)
 
