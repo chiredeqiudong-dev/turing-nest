@@ -61,8 +61,8 @@ tags = [
   name = "OneWord"
   link = "/one-word/"
 [[params.socials]]
-  name = "GoodArticle"
-  link = "/good-article/"
+  name = "BestFinds"
+  link = "/best-finds/"
 [[params.socials]]
   name = "Games"
   link = "/games/"
