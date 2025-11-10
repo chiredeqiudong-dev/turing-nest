@@ -148,8 +148,8 @@ SELECT @@global.transaction_isolation, @@session.transaction_isolation;
 有三个关键点：
 
 1. 第一个关键点：“隐藏列”，数据表中看不到的 3 列数据，当前事务 ID、旧数据存储指针、没有主键 ID 就会维护一个 ROW_ID。
-2. 第一个关键点：“undolog”，历史数据的存储位置，单/多事务历史数据都存储在 undolog 中，事务从 undolog 找到对应历史数据。
-3. 第一个关键点：“ReadView”，提供如何找历史数据的解决办法。
+2. 第二个关键点：“undolog”，历史数据的存储位置，单/多事务历史数据都存储在 undolog 中，事务从 undolog 找到对应历史数据。
+3. 第三个关键点：“ReadView”，提供如何找历史数据的解决办法。
 
 ![](https://cdn.img.turingzy.cn/2025/202510140931777.png)
 
