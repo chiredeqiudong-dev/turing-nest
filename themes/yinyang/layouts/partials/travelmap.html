@@ -1,0 +1,53 @@
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+<script type="text/javascript">
+
+document.addEventListener("DOMContentLoaded", function() {
+    var map = L.map('travel-map').setView([20, 0], 2);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+        maxZoom: 19
+    }).addTo(map);
+
+    var markers = L.markerClusterGroup({
+        maxClusterRadius: 50
+    });
+
+    // 安全注入数据（Hugo 会正确转义）
+    var spots = {{ index .Site.Data "travel-spots" | default (slice) | jsonify }};
+
+    if (spots.length === 0) {
+        console.warn("旅行足迹数据为空，请检查 data/travel-spots.yaml");
+        return;
+    }
+
+    spots.forEach(function(spot) {
+        var marker = L.circleMarker([spot.lat, spot.lon], {
+            radius: 8,
+            fillColor: "#0f766e",   // 深青绿，接近原图
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        });
+
+        var popupContent = "<strong>" + spot.name + "</strong><br>" + spot.description;
+        if (spot.link) {
+            popupContent += '<br><a href="' + spot.link + '" target="_blank">查看游记 →</a>';
+        }
+
+        marker.bindPopup(popupContent);
+        markers.addLayer(marker);
+    });
+
+    map.addLayer(markers);
+    map.fitBounds(markers.getBounds().pad(0.1));
+});
+</script>
