@@ -1,11 +1,11 @@
 {
-  "total": 27,
+  "total": 29,
   "games": [
     {
       "name": "Counter-Strike 2",
-      "playtime_forever": 360.5,
+      "playtime_forever": 369.4,
       "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/730/8dbc71957312bbd3baea65848b545be9eae2a355.jpg",
-      "last_played": "2025-10-04 20:36:22",
+      "last_played": "2025-12-20 10:28:47",
       "app_url": "https://store.steampowered.com/app/730/"
     },
     {
@@ -24,9 +24,9 @@
     },
     {
       "name": "Wallpaper Engine",
-      "playtime_forever": 6.5,
+      "playtime_forever": 6.6,
       "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/431960/72edaed9d748c6cf7397ffb1c83f0b837b9ebd9d.jpg",
-      "last_played": "2025-08-20 00:03:03",
+      "last_played": "2025-10-18 21:19:19",
       "app_url": "https://store.steampowered.com/app/431960/"
     },
     {
@@ -177,11 +177,25 @@
       "app_url": "https://store.steampowered.com/app/610570/"
     },
     {
+      "name": "Slay the Spire",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/646570/33ea124ea8c03a9ce7012d34c3b348a351612fca.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/646570/"
+    },
+    {
       "name": "Red Dead Redemption 2",
       "playtime_forever": 0.0,
       "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/1174180/5106abd9c1187a97f23295a0ba9470c94804ec6c.jpg",
       "last_played": "",
       "app_url": "https://store.steampowered.com/app/1174180/"
+    },
+    {
+      "name": "Toy Tinker Simulator",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/1510580/7a7c69259b7d1f622d8f7c0d34f93a85683c8fa4.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/1510580/"
     },
     {
       "name": "Hellslave",
