@@ -1,9 +1,7 @@
 ---
 title: 单点登录（SSO）
 slug: single-sign-on
-categories: 笔记
-tags:
-  - sso
+categories: 后端开发
 date: 2025-02-14
 ---
 
@@ -385,9 +383,9 @@ public Object myInfo() {
 
 # 参考资料
 
-【会话技术】https://mp.weixin.qq.com/s/JW7mxXEqrV1rZ_pQOteXGQ
-【什么是单点登录】https://zhuanlan.zhihu.com/p/66037342
-【漫谈单点登录】https://www.cnblogs.com/EzrealLiu/p/5559255.html
-【单点登录原理和简单实现】https://www.cnblogs.com/ywlaker/p/6113927.html
-【CAS执行原理探究】https://blog.csdn.net/javaloveiphone/article/details/52439613
-【Sa-Token单点登录机制（源码分析）】https://blog.csdn.net/m0_51433562/article/details/127717892
+- [会话技术](https://mp.weixin.qq.com/s/JW7mxXEqrV1rZ_pQOteXGQ)
+- [什么是单点登录](https://zhuanlan.zhihu.com/p/66037342)
+- [漫谈单点登录](https://www.cnblogs.com/EzrealLiu/p/5559255.html)
+- [单点登录原理和简单实现](https://www.cnblogs.com/ywlaker/p/6113927.html)
+- [CAS执行原理探究](https://blog.csdn.net/javaloveiphone/article/details/52439613)
+- [Sa-Token单点登录机制（源码分析）](https://blog.csdn.net/m0_51433562/article/details/127717892
