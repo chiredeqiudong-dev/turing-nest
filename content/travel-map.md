@@ -5,4 +5,4 @@ date: 2025-12-21
 layout: "travel-map"
 ---
 
-[旅游记录](/categories/游记/)
+[游记 >>>>>>](/categories/游记/)
