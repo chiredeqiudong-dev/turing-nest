@@ -76,6 +76,13 @@
       "year": 2025,
       "rating": 8,
       "url": "https://movie.douban.com/subject/26311973/"
+    },
+    {
+      "title": "匿杀",
+      "poster": "https://cdn.img.turingzy.cn/2026/202601012240918.png",
+      "year": 2026,
+      "rating": 4,
+      "url": "https://movie.douban.com/subject/36073533/"
     }
   ]
 }

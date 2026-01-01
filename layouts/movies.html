@@ -11,7 +11,8 @@
         {{ .Content }} {{ if .Site.Data.movies }}
         <!-- 年份Tab -->
         <div class="movies-tabs">
-          <button class="tab-btn active" data-year="2025">2025</button>
+          <button class="tab-btn" data-year="2025">2025</button>
+          <button class="tab-btn active" data-year="2026">2026</button>
         </div>
 
         <!-- 电影网格 -->
@@ -164,10 +165,10 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // 初始化显示2025
+    // 初始化显示2026
     const cards = document.querySelectorAll(".movie-card");
     cards.forEach((card) => {
-      if (card.dataset.year === "2025") {
+      if (card.dataset.year === "2026") {
         card.style.display = "block";
       }
     });
