@@ -1,12 +1,19 @@
 {
-  "total": 29,
+  "total": 33,
   "games": [
     {
       "name": "Counter-Strike 2",
-      "playtime_forever": 369.4,
+      "playtime_forever": 411.2,
       "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/730/8dbc71957312bbd3baea65848b545be9eae2a355.jpg",
-      "last_played": "2025-12-20 10:28:47",
+      "last_played": "2026-02-19 17:43:25",
       "app_url": "https://store.steampowered.com/app/730/"
+    },
+    {
+      "name": "Resident Evil 4",
+      "playtime_forever": 15.5,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/2050650/817358b8013c55831ea10d031ef9c0b151110826.jpg",
+      "last_played": "2026-02-19 21:17:17",
+      "app_url": "https://store.steampowered.com/app/2050650/"
     },
     {
       "name": "Left 4 Dead 2",
@@ -182,6 +189,27 @@
       "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/646570/33ea124ea8c03a9ce7012d34c3b348a351612fca.jpg",
       "last_played": "",
       "app_url": "https://store.steampowered.com/app/646570/"
+    },
+    {
+      "name": "Resident Evil 2",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/883710/86ef2fdebeced746313994ccf2d7afb1f2887bf0.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/883710/"
+    },
+    {
+      "name": "Resident Evil 3",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/952060/136b7a39787b0d8df93cf3b757c36ae1eb392784.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/952060/"
+    },
+    {
+      "name": "RESIDENT EVIL RESISTANCE",
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/952070/05c0148e8e414361742c38e3709ca9cdd9c637a8.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/952070/"
     },
     {
       "name": "Red Dead Redemption 2",
