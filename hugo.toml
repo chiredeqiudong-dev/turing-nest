@@ -61,6 +61,9 @@ tags = [
   name = "Travel"
   link = "/travel-map/"
 [[params.socials]]
+  name = "Novels"
+  link = "/novels/"
+[[params.socials]]
   name = "OneWord"
   link = "/one-word/"
 [[params.socials]]
