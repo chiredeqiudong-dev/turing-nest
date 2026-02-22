@@ -18,26 +18,16 @@
         <!-- 电影网格 -->
         <div class="movies-grid" id="moviesGrid">
           {{ range .Site.Data.movies.movies }}
-          <div
-            class="movie-card year-{{ .year }}"
-            data-year="{{ .year }}"
-            style="display: none"
-          >
+          <div class="movie-card year-{{ .year }}" data-year="{{ .year }}" style="display: none">
             <a href="{{ .url }}" target="_blank" class="movie-link">
-              <img
-                src="{{ .poster }}"
-                alt="{{ .title }}"
-                class="movie-poster"
-                loading="lazy"
-                onerror="this.src='https://via.placeholder.com/200x280?text=海报'"
-              />
+              <img src="{{ .poster }}" alt="{{ .title }}" class="movie-poster" loading="lazy"
+                onerror="this.src='https://via.placeholder.com/200x280?text=海报'" />
               <div class="movie-title">{{ .title }}</div>
               <div class="movie-year">{{ .year }}</div>
               <div class="movie-rating">
                 {{ $filledStars := .rating | float | int }} {{ range $i := seq
-                10 }} {{ if le $i $filledStars }}<span class="star filled"
-                  >★</span
-                >{{ else }}<span class="star">★</span>{{ end }} {{ end }} {{
+                10 }} {{ if le $i $filledStars }}<span class="star filled">★</span>{{ else }}<span
+                  class="star">★</span>{{ end }} {{ end }} {{
                 .rating }}
               </div>
             </a>
@@ -153,9 +143,11 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
     }
+
     .movie-poster {
       height: 200px;
     }
+
     .tab-btn {
       margin: 5px;
       padding: 8px 16px;

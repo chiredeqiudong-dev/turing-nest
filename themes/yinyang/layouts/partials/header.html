@@ -1,9 +1,14 @@
 {{ $curLanguageName := .Site.Language.LanguageName }}
 <header>
-  <div class="header-title">
-    <a href="{{ .Site.LanguagePrefix }}/"
-      >{{ or .Site.Params.headTitle .Site.Author.name }}</a
-    >
+  <div class="header-title-wrapper">
+    <div class="header-title">
+      <a href="{{ .Site.LanguagePrefix }}/"
+        >{{ or .Site.Params.headTitle .Site.Author.name }}</a
+      >
+    </div>
+    <a href="#" id="theme-toggle" title="切换主题">
+      <i class="fas fa-moon"></i>
+    </a>
   </div>
   <div class="header-subtitle">{{ .Site.Params.Description }}</div>
 </header>

@@ -1,167 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-  {{ partial "head.html" . }}
+{{ partial "head.html" . }}
 
-  <body>
-    <article class="post {{ .Site.Language.LanguageName }}" id="article">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="site-header">{{ partial "header.html" . }}</div>
-          <header class="post-header">
-            <h1 class="post-title">{{ .Title }}</h1>
-          </header>
-          <div class="post-content markdown-body">
-            {{ .Content }}
-            {{ if .Site.Data.games }}
-            <!-- 统计卡片 -->
-            <div class="games-stats">
-              <div class="stats-card">
-                <span class="stats-number">{{ .Site.Data.games.total }}</span>
-                <span class="stats-label">游戏总数</span>
-              </div>
-              <div class="stats-card">
-                <span class="stats-number">{{ len (where .Site.Data.games.games "playtime_forever" "gt" 0) }}</span>
-                <span class="stats-label">已玩过的游戏</span>
-              </div>
+<body>
+  <article class="post {{ .Site.Language.LanguageName }}" id="article">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="site-header">{{ partial "header.html" . }}</div>
+        <header class="post-header">
+          <h1 class="post-title">{{ .Title }}</h1>
+        </header>
+        <div class="post-content markdown-body">
+          {{ .Content }}
+          {{ if .Site.Data.games }}
+          <!-- 统计卡片 -->
+          <div class="games-stats">
+            <div class="stats-card">
+              <span class="stats-number">{{ .Site.Data.games.total }}</span>
+              <span class="stats-label">游戏总数</span>
             </div>
+            <div class="stats-card">
+              <span class="stats-number">{{ len (where .Site.Data.games.games "playtime_forever" "gt" 0) }}</span>
+              <span class="stats-label">已玩过的游戏</span>
+            </div>
+          </div>
 
-            <!-- 游戏列表 -->
-            <div class="games-grid">
-              {{ range .Site.Data.games.games }}
-              <a href="{{ .app_url }}" target="_blank" class="game-card">
-                <div class="game-icon">
-                  <img src="{{ .img_icon_url }}" alt="{{ .name }}" loading="lazy" />
-                </div>
-                <div class="game-info">
-                  <h3 class="game-title" title="{{ .name }}">{{ .name }}</h3>
-                  <div class="game-details">
-                    <span class="playtime">
-                      <i class="fas fa-clock"></i>
-                      {{ if gt .playtime_forever 0 }}
-                        {{ .playtime_forever }} 小时
-                      {{ else }}
-                        未玩过
-                      {{ end }}
-                    </span>
-                    {{ if .last_played }}
-                    <span class="last-played">
-                      <i class="fas fa-history"></i>
-                      {{ dateFormat "2006-01-02" .last_played }}
-                    </span>
+          <!-- 游戏列表 -->
+          <div class="games-grid">
+            {{ range .Site.Data.games.games }}
+            <a href="{{ .app_url }}" target="_blank" class="game-card">
+              <div class="game-icon">
+                <img src="{{ .img_icon_url }}" alt="{{ .name }}" loading="lazy" />
+              </div>
+              <div class="game-info">
+                <h3 class="game-title" title="{{ .name }}">{{ .name }}</h3>
+                <div class="game-details">
+                  <span class="playtime">
+                    <i class="fas fa-clock"></i>
+                    {{ if gt .playtime_forever 0 }}
+                    {{ .playtime_forever }} 小时
+                    {{ else }}
+                    未玩过
                     {{ end }}
-                  </div>
+                  </span>
+                  {{ if .last_played }}
+                  <span class="last-played">
+                    <i class="fas fa-history"></i>
+                    {{ dateFormat "2006-01-02" .last_played }}
+                  </span>
+                  {{ end }}
                 </div>
-              </a>
-              {{ end }}
-            </div>
+              </div>
+            </a>
             {{ end }}
           </div>
-          {{ partial "footer.html" . }}
+          {{ end }}
         </div>
+        {{ partial "footer.html" . }}
       </div>
-    </article>
+    </div>
+  </article>
 
-    <style>
-      /* 统计卡片样式 */
-      .games-stats {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-      }
+  <style>
+    /* 统计卡片样式 */
+    .games-stats {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
 
-      .stats-card {
-        background-color: #2a2a2a;
-        border: 1px solid #3d3d3d;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        text-align: center;
-        color: #fff;
-      }
+    .stats-card {
+      background-color: #2a2a2a;
+      border: 1px solid #3d3d3d;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      text-align: center;
+      color: #fff;
+    }
 
-      .stats-number {
-        display: block;
-        font-size: 1.2em;
-        font-weight: bold;
-        margin-bottom: 0.25rem;
-      }
+    .stats-number {
+      display: block;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
 
-      .stats-label {
-        font-size: 0.8em;
-        color: #999;
-      }
+    .stats-label {
+      font-size: 0.8em;
+      color: #999;
+    }
 
-      /* 游戏网格样式 */
-      .games-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 0.5rem;
-      }
+    /* 游戏网格样式 */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 0.5rem;
+    }
 
-      /* 游戏卡片样式 */
-      .game-card {
-        display: flex;
-        background-color: #1e1e1e;
-        border: 1px solid #3d3d3d;
-        border-radius: 4px;
-        text-decoration: none;
-        color: #fff;
-        overflow: hidden;
-        transition: background-color 0.2s ease;
-      }
+    /* 游戏卡片样式 */
+    .game-card {
+      display: flex;
+      background-color: #1e1e1e;
+      border: 1px solid #3d3d3d;
+      border-radius: 4px;
+      text-decoration: none;
+      color: #fff;
+      overflow: hidden;
+      transition: background-color 0.2s ease;
+    }
 
-      .game-card:hover {
-        background-color: rgb(42, 163, 228);
-      }
+    .game-card:hover {
+      background-color: rgb(42, 163, 228);
+    }
 
-      .game-icon {
-        width: 80px;  /* 增加宽度 */
-        height: 80px; /* 增加高度，保持正方形 */
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+    .game-icon {
+      width: 80px;
+      /* 增加宽度 */
+      height: 80px;
+      /* 增加高度，保持正方形 */
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-      .game-icon img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+    .game-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-      .game-info {
-        padding: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-start;
-      }
+    .game-info {
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
 
-      .game-title {
-        font-size: 0.8em;
-        font-weight: bold;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        margin: 0;
-      }
+    .game-title {
+      font-size: 0.8em;
+      font-weight: bold;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0;
+    }
 
-      .game-details {
-        display: flex;
-        flex-direction: column;
-        font-size: 0.7em;
-        color: #999;
-      }
+    .game-details {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.7em;
+      color: #999;
+    }
 
-      .playtime,
-      .last-played {
-        margin: 0.1rem 0;
-      }
+    .playtime,
+    .last-played {
+      margin: 0.1rem 0;
+    }
 
-      .fas {
-        margin-right: 0.2rem;
-      }
-    </style>
-    {{ partial "scripts.html" . }}
-  </body>
+    .fas {
+      margin-right: 0.2rem;
+    }
+  </style>
+  {{ partial "scripts.html" . }}
+</body>
+
 </html>

@@ -7,7 +7,7 @@
   <meta name="author" content="{{ .Site.Author.name }}" />
   <meta property="og:url" content="{{ .Permalink }}" />
   <link rel="canonical" href="{{ .Permalink }}" />
-  
+
   {{- if .Site.Params.staticPrefix -}}
   <link rel="dns-prefetch" href="{{ .Site.Params.staticPrefix }}" />
   {{- end -}}
@@ -42,10 +42,10 @@
   {{ end }}
 
   {{ with resources.Get "css/index.css" | minify }}
-    <style>{{ .Content | safeCSS }}</style>
+  <link rel="stylesheet" href="{{ .Permalink }}">
   {{ end }}
   {{ with resources.Get "css/flexboxgrid-6.3.1.min.css" | minify }}
-    <style>{{ .Content | safeCSS }}</style>
+  <link rel="stylesheet" href="{{ .Permalink }}">
   {{ end }}
 
   {{ range .Site.Params.extraCSSFiles -}}
@@ -53,18 +53,19 @@
   {{- end }}
 
   {{ with .OutputFormats.Get "rss" }}
-    {{ printf `<link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
+  {{ printf `
+  <link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
   {{ end }}
 
   {{ if .Param "math" }}
-    {{ partialCached "math.html" . }}
+  {{ partialCached "math.html" . }}
   {{ end }}
 
   <!-- fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Bungee+Shade" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  
+
   <!-- quicklink require -->
   <!-- <script>
     /* Disable minification (remove `.min` from URL path) for more info 

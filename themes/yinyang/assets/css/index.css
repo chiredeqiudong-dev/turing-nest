@@ -1,9 +1,52 @@
 /* global */
 
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --text-secondary: #666666;
+  --border-color: #000000;
+  --link-color: #000000;
+  --code-bg: #cdcdcd;
+  --blockquote-color: #57606a;
+  --header-line-color: #482936;
+  --hover-bg: #000000;
+  --hover-text: #ffffff;
+  --input-border: #000000;
+  --input-focus: #666666;
+  --input-placeholder: #999999;
+  --page-btn-border: #ddd;
+  --page-btn-text: #666666;
+  --novel-reading-bg: linear-gradient(to right, #fafafa 0%, #fff 50%);
+  --novel-summary-color: #111;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --text-secondary: #999999;
+  --border-color: #e0e0e0;
+  --link-color: #e0e0e0;
+  --code-bg: #333333;
+  --blockquote-color: #999999;
+  --header-line-color: #e0e0e0;
+  --hover-bg: #e0e0e0;
+  --hover-text: #1a1a1a;
+  --input-border: #e0e0e0;
+  --input-focus: #999999;
+  --input-placeholder: #666666;
+  --page-btn-border: #444444;
+  --page-btn-text: #999999;
+  --novel-reading-bg: linear-gradient(to right, #2a2a2a 0%, #1a1a1a 50%);
+  --novel-summary-color: #cccccc;
+}
+
 body {
   font-family: "Bree Serif", sans-serif;
   -webkit-font-smoothing: antialiased;
   margin: 0 20px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 article {
@@ -13,7 +56,7 @@ article {
 }
 
 a {
-  color: #000;
+  color: var(--link-color);
   text-decoration: none;
 }
 
@@ -33,30 +76,54 @@ a:hover {
 
 .markdown-body a {
   text-decoration: underline;
-  text-decoration-color: #000;
+  text-decoration-color: var(--link-color);
 }
 
 .markdown-body blockquote {
   margin: 0;
   padding: 0 1em;
-  color: #57606a;
-  border-left: 0.25em solid black;
+  color: var(--blockquote-color);
+  border-left: 0.25em solid var(--text-color);
 }
 
 .markdown-body pre {
-  border: 2px solid black; 
+  border: 2px solid var(--text-color); 
   background-color: inherit; 
   padding: 16px;
   overflow: auto;
   border-radius: 10px; 
   font-size: 15px;
+  position: relative;
 }
 
 .markdown-body code {
   padding: 0.2em 0.4em;
   font-size: 100%;
-  background-color: #cdcdcd;
+  background-color: var(--code-bg);
   border-radius: 4px;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  background-color: var(--text-color);
+  color: var(--bg-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.markdown-body pre:hover .copy-btn {
+  opacity: 0.7;
+}
+
+.copy-btn:hover {
+  opacity: 1 !important;
 }
 
 /* reset code */
@@ -83,15 +150,29 @@ a:hover {
 .header-title {
   font-size: 2rem;
   font-weight: bold;
-  margin-top: 32px;
   font-family: "Bungee Shade", sans-serif;
+  display: inline-block;
 }
+
 .header-title a {
   text-decoration: none;
 }
 
+.header-title-wrapper {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+
+#theme-toggle {
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
 .header-subtitle {
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .header-items {
@@ -105,12 +186,16 @@ a:hover {
 .header-line {
   width: 100%;
   border-width: 2px;
-  border-color: #482936;
+  border-color: var(--header-line-color);
   border-style: solid none none none;
 }
 
 .lang-switch {
   font-weight: 600;
+}
+
+#theme-toggle:hover {
+  color: var(--text-secondary);
 }
 
 /* posts list */
@@ -132,19 +217,18 @@ a:hover {
 
 .posts-category {
   padding: 3px 0;
-  border: #000 2px solid;
+  border: var(--border-color) 2px solid;
   border-radius: 5px;
-  /* margin-bottom: 3px; */
 }
 
 /* footer */
 .site-footer {
   text-align: center;
   padding: 10px 0;
-  border-top: 2px solid #000;
+  border-top: 2px solid var(--border-color);
   font-size: 15px;
   margin: 20px 0;
-  color: #000;
+  color: var(--text-color);
 }
 
 .site-footer-item {
@@ -152,7 +236,7 @@ a:hover {
 }
 
 .site-footer-item a {
-  color: #000;
+  color: var(--link-color);
   text-decoration: underline;
 }
 
@@ -171,7 +255,7 @@ a:hover {
   font-weight: 500;
   padding: 2px 5px;
   margin-right: 6px;
-  border: #000 2px solid;
+  border: var(--border-color) 2px solid;
   border-radius: 5px;
 }
 
@@ -228,7 +312,7 @@ a:hover {
 .related-content {
   border-width: 3px;
   border-style: solid;
-  border-color: #000;
+  border-color: var(--border-color);
   padding: 0 10px;
   margin-bottom: 50px;
   margin-top: 100px;
@@ -300,26 +384,28 @@ a:hover {
   width: 200px;
   padding: 0.5rem 0.8rem;
   font-size: 0.9rem;
-  border: 2px solid #000;
+  border: 2px solid var(--input-border);
   border-radius: 4px;
   font-family: inherit;
   outline: none;
   transition: border-color 0.2s;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .novel-search-box input:focus {
-  border-color: #666;
+  border-color: var(--input-focus);
 }
 
 .novel-search-box input::placeholder {
-  color: #999;
+  color: var(--input-placeholder);
 }
 
 .category-tab {
   padding: 0.5rem 1rem;
-  border: 2px solid #000;
+  border: 2px solid var(--border-color);
   background-color: transparent;
-  color: #000;
+  color: var(--text-color);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -327,8 +413,8 @@ a:hover {
 
 .category-tab:hover,
 .category-tab.active {
-  background-color: #000;
-  color: #fff;
+  background-color: var(--hover-bg);
+  color: var(--hover-text);
 }
 
 .novels-category {
@@ -352,7 +438,7 @@ a:hover {
 
 .novel-count {
   font-size: 0.8rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .pagination {
@@ -370,9 +456,9 @@ a:hover {
 
 .page-btn {
   padding: 0.4rem 0.8rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--page-btn-border);
   background-color: transparent;
-  color: #666;
+  color: var(--page-btn-text);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -381,14 +467,14 @@ a:hover {
 }
 
 .page-btn:hover {
-  border-color: #000;
-  color: #000;
+  border-color: var(--border-color);
+  color: var(--text-color);
 }
 
 .page-btn.active {
-  border-color: #000;
-  background-color: #000;
-  color: #fff;
+  border-color: var(--border-color);
+  background-color: var(--border-color);
+  color: var(--bg-color);
 }
 
 .novels-category > .novel-card:not(:last-child) {
@@ -412,20 +498,20 @@ a:hover {
   height: auto;
   aspect-ratio: 3 / 4;
   object-fit: cover;
-  border: 2px solid #000;
+  border: 2px solid var(--border-color);
   display: block;
 }
 
 .novel-cover-placeholder {
   width: 100%;
   aspect-ratio: 3 / 4;
-  border: 2px dashed #000;
+  border: 2px dashed var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: monospace;
   font-size: 0.8rem;
-  color: #000;
+  color: var(--text-color);
   font-weight: bold;
 }
 
@@ -447,7 +533,7 @@ a:hover {
   font-size: 1.6rem;
   font-family: Georgia, serif;
   font-weight: 900;
-  color: #000;
+  color: var(--text-color);
 }
 
 .novel-tags {
@@ -458,15 +544,15 @@ a:hover {
 .novel-tag {
   font-size: 0.8rem;
   padding: 2px 8px;
-  border: 2px solid #000;
+  border: 2px solid var(--border-color);
   background-color: transparent;
-  color: #000;
+  color: var(--text-color);
   font-weight: bold;
 }
 
 .novel-meta {
   font-size: 0.95rem;
-  color: #000;
+  color: var(--text-color);
   margin-bottom: 1rem;
   font-family: monospace;
 }
@@ -474,7 +560,7 @@ a:hover {
 .novel-summary {
   margin: 0;
   line-height: 1.6;
-  color: #111;
+  color: var(--novel-summary-color);
   font-size: 1rem;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -493,11 +579,11 @@ a:hover {
 .novel-reading-note {
   margin-top: 1.5rem;
   padding: 0.5rem 1rem 0.5rem 1rem;
-  border-left: 4px solid #000;
-  background: linear-gradient(to right, #fafafa 0%, #fff 50%);
+  border-left: 4px solid var(--border-color);
+  background: var(--novel-reading-bg);
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #777;
+  color: var(--text-secondary);
 }
 
 .novel-reading-note p {

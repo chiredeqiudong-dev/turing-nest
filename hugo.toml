@@ -25,10 +25,14 @@ tags = [
           # block = [['$', '$'],['$$','$$']]
           inline = [['$', '$']]
   [markup.highlight]
+    codeFences = true
     guessSyntax = true
     noClasses = true #使用行内样式
-    style = "github"
-    tabWidth = 2
+    lineNumbersInTable = false
+    lineNoStart = 0
+    lineNos = true
+    style = "monokai"
+    tabWidth = 4
 [outputs]
   home = ["html","rss"]
   section = ["html"]
