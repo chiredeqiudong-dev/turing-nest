@@ -285,7 +285,6 @@ a:hover {
 .post-content p {
   hyphens: auto;
   line-height: 1.8;
-  /* text-align: justify; */
   text-justify: ideographic;
   margin-bottom: 1em;
 }
@@ -607,12 +606,6 @@ a:hover {
 }
 
 @media screen and (max-width: 600px) {
-  .header-title,
-  .header-subtitle,
-  .header-items {
-    /* text-align: center; */
-  }
-
   .posts-line {
     font-size: 16px;
   }

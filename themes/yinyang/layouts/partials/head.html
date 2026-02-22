@@ -66,13 +66,6 @@
   <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Bungee+Shade" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-  <!-- quicklink require -->
-  <!-- <script>
-    /* Disable minification (remove `.min` from URL path) for more info 
-    https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver
-    */
-    (function (undefined) { }).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-  </script> -->
 
   {{ if .Site.Params.TwitterCards }}{{ template "_internal/twitter_cards.html" . }}{{ end }}
   {{ .Site.Params.extraHead | safeHTML }}

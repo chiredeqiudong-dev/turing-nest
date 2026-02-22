@@ -24,9 +24,9 @@
           </div>
         </div>
 
-        {{ if .Site.Params.disqus }}
+        {{ if .Site.Params.giscus }}
         <div class="post-comments">
-          {{ partial "disqus.html" . }}
+          {{ partial "giscus.html" . }}
         </div>
         {{ end }}
 
