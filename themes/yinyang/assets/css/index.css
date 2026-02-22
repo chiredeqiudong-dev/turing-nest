@@ -264,8 +264,55 @@ a:hover {
 .novels-category-tabs {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.novels-tabs-wrapper {
+  display: flex;
+  gap: 1rem;
   margin-bottom: 2rem;
   flex-wrap: wrap;
+}
+
+.category-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #000;
+}
+
+.novel-search-box {
+  flex-shrink: 0;
+  margin-bottom: 1rem;
+}
+
+.novel-search-box input {
+  width: 200px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem;
+  border: 2px solid #000;
+  border-radius: 4px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.novel-search-box input:focus {
+  border-color: #666;
+}
+
+.novel-search-box input::placeholder {
+  color: #999;
 }
 
 .category-tab {
@@ -300,9 +347,7 @@ a:hover {
 .category-title {
   font-size: 1.5rem;
   font-weight: 900;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #000;
+  margin: 0;
 }
 
 .novel-count {
@@ -354,7 +399,6 @@ a:hover {
   display: flex;
   gap: 1.5rem;
   padding-bottom: 2rem;
-  border-bottom: 2px solid #000;
   align-items: flex-start;
 }
 
@@ -432,6 +476,18 @@ a:hover {
   line-height: 1.6;
   color: #111;
   font-size: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.novel-summary:hover {
+  -webkit-line-clamp: unset;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .novel-reading-note {

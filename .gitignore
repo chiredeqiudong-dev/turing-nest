@@ -8,3 +8,5 @@ hugo.darwin
 
 # 脚本
 scripts/
+
+.opencode/

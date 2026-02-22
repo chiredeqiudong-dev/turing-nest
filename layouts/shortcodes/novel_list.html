@@ -11,11 +11,13 @@
       {{ end }}
     {{ end }}
     
-    <!-- 分类 Tab -->
-    <div class="novels-category-tabs">
-      {{ range $idx, $cat := $categories }}
-      <button class="category-tab{{ if eq $idx 0 }} active{{ end }}" data-category="{{ $cat }}">{{ $cat }}</button>
-      {{ end }}
+    <!-- 分类 Tab + 搜索框 -->
+    <div class="novels-tabs-wrapper">
+      <div class="novels-category-tabs">
+        {{ range $idx, $cat := $categories }}
+        <button class="category-tab{{ if eq $idx 0 }} active{{ end }}" data-category="{{ $cat }}">{{ $cat }}</button>
+        {{ end }}
+      </div>
     </div>
     
     <!-- 小说列表 -->
@@ -35,7 +37,12 @@
       {{ end }}
       
     <div class="novels-category{{ if eq $catIdx 0 }} active{{ end }}" data-category="{{ $cat }}">
-      <h2 class="category-title">{{ $cat }} <span class="novel-count">({{ len $catNovels }})</span></h2>
+      <div class="category-header">
+        <h2 class="category-title">{{ $cat }} <span class="novel-count">({{ len $catNovels }})</span></h2>
+        <div class="novel-search-box">
+          <input type="text" class="novel-search" placeholder="Search..." autocomplete="off" data-category="{{ $cat }}">
+        </div>
+      </div>
       
       <!-- 小说卡片 -->
       {{ range $idx, $novel := $catNovels }}
@@ -138,6 +145,37 @@ document.querySelectorAll('.page-btn').forEach(btn => {
         card.style.display = 'none';
       }
     });
+  });
+});
+
+// 搜索功能 - 每个分类独立搜索
+document.querySelectorAll('.novel-search').forEach(input => {
+  input.addEventListener('input', function() {
+    const query = this.value.toLowerCase().trim();
+    const category = this.dataset.category;
+    const categoryEl = document.querySelector(`.novels-category[data-category="${category}"]`);
+    
+    let visibleCount = 0;
+    categoryEl.querySelectorAll('.novel-card').forEach(card => {
+      const title = card.querySelector('.novel-title').textContent.toLowerCase();
+      const author = card.querySelector('.novel-author').textContent.toLowerCase();
+      const match = query === '' || title.includes(query) || author.includes(query);
+      card.style.display = match ? 'flex' : 'none';
+      if (match) visibleCount++;
+    });
+    
+    // 隐藏分页
+    const pagination = categoryEl.querySelector('.pagination');
+    if (pagination) {
+      pagination.style.display = query ? 'none' : 'block';
+    }
+    
+    // 更新计数
+    const totalCount = categoryEl.querySelectorAll('.novel-card').length;
+    const countEl = categoryEl.querySelector('.novel-count');
+    if (countEl) {
+      countEl.textContent = query ? `(${visibleCount}/${totalCount})` : `(${totalCount})`;
+    }
   });
 });
 </script>
