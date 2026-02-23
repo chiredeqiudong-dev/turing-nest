@@ -741,3 +741,27 @@ a:hover {
     border-bottom-width: 2px;
   }
 }
+
+/* Back button */
+.back-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 8px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 5px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.2s;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.back-btn:hover {
+  background-color: var(--hover-bg);
+  color: var(--hover-text);
+  text-decoration: none;
+}
