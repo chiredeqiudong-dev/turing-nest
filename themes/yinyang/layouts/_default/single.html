@@ -33,14 +33,16 @@
         </header>
 
         {{- if and .TableOfContents (not .IsHome) }}
+        {{- if (strings.Contains (printf "%s" .TableOfContents) "<ul>") }}
         <div class="toc-wrapper">
-          <button class="toc-toggle" onclick="toggleToc()" title="Toggle TOC">
+          <button class="toc-toggle" title="Toggle TOC">
             ☰ Contents
           </button>
           <nav class="toc">
             {{ .TableOfContents }}
           </nav>
         </div>
+        {{- end }}
         {{- end }}
 
         <div class="post-content markdown-body">
@@ -89,7 +91,7 @@
         {{ end }}
 
         {{ partial "footer.html" . }}
-        <a href="javascript:history.back()" class="back-btn">Back</a>
+        <a href="javascript:void(0)" class="back-btn" onclick="goBackOrHome()">Back</a>
       </div>
     </div>
   </article>

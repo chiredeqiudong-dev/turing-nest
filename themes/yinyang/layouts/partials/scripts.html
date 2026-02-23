@@ -1,9 +1,51 @@
 <script>
-function toggleToc() {
+document.addEventListener('DOMContentLoaded', function() {
   var toc = document.querySelector('.toc');
-  if (toc) {
-    toc.classList.toggle('collapsed');
-    toc.classList.toggle('expanded');
+  var toggle = document.querySelector('.toc-toggle');
+  
+  if (toc && toggle) {
+    toggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      toc.classList.toggle('expanded');
+    });
+  }
+
+  var tocLinks = document.querySelectorAll('.toc a');
+  if (tocLinks.length > 0) {
+    var headings = [];
+    tocLinks.forEach(function(link) {
+      var id = link.getAttribute('href').replace('#', '');
+      var heading = document.getElementById(id);
+      if (heading) {
+        headings.push({ id: id, element: heading });
+      }
+    });
+
+    if (headings.length > 0) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            tocLinks.forEach(function(l) { l.classList.remove('active'); });
+            var activeLink = document.querySelector('.toc a[href="#' + entry.target.id + '"]');
+            if (activeLink) {
+              activeLink.classList.add('active');
+            }
+          }
+        });
+      }, { rootMargin: '-20% 0px -70% 0px' });
+
+      headings.forEach(function(h) {
+        observer.observe(h.element);
+      });
+    }
+  }
+});
+
+function goBackOrHome() {
+  if (history.length > 1) {
+    history.back();
+  } else {
+    window.location.href = '/';
   }
 }
 </script>

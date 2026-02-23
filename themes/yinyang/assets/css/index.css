@@ -672,14 +672,12 @@ a:hover {
   border-radius: 8px;
   background: var(--bg-color);
   max-width: 220px;
-  transition: opacity 0.3s, transform 0.3s;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.toc.collapsed {
-  opacity: 0;
-  transform: translateX(10px);
-  pointer-events: none;
-  position: absolute;
+.toc::-webkit-scrollbar {
+  display: none;
 }
 
 .toc ul {
@@ -710,6 +708,14 @@ a:hover {
   color: var(--text-color);
 }
 
+.toc li a.active {
+  color: var(--text-color);
+  font-weight: 600;
+  border-left: 3px solid var(--border-color);
+  padding-left: 8px;
+  margin-left: -11px;
+}
+
 .toc ul ul {
   padding-left: 12px;
 }
@@ -718,8 +724,22 @@ a:hover {
   font-size: 13px;
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (min-width: 1300px) {
   .toc-wrapper {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 100;
+  }
+  
+  .toc-toggle {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1299px) {
+  .toc-wrapper {
+    display: block;
     position: static;
     margin-bottom: 30px;
   }
@@ -734,10 +754,12 @@ a:hover {
     overflow: hidden;
     padding: 0 15px;
     border-width: 0 2px;
+    transition: max-height 0.3s ease, padding 0.3s ease, border-width 0.3s ease;
   }
   
   .toc.expanded {
-    max-height: 50vh;
+    max-height: 70vh;
+    overflow-y: auto;
     border-bottom-width: 2px;
   }
 }
