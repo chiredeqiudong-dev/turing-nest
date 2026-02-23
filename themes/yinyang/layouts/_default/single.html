@@ -32,6 +32,17 @@
           {{ end }}
         </header>
 
+        {{- if and .TableOfContents (not .IsHome) }}
+        <div class="toc-wrapper">
+          <button class="toc-toggle" onclick="toggleToc()" title="Toggle TOC">
+            ☰ Contents
+          </button>
+          <nav class="toc">
+            {{ .TableOfContents }}
+          </nav>
+        </div>
+        {{- end }}
+
         <div class="post-content markdown-body">
           {{ .Site.Params.postHeaderContent | safeHTML }}
           {{ .Content }}

@@ -1,8 +1,9 @@
-{{ if and .Site.Params.lazyImage (not .IsHome) -}}
-<script src="{{ .Site.Params.staticPrefix }}{{ "js/lazyload.min.js" | relURL }}"></script>
 <script>
-  var lazyImage = new LazyLoad({
-    container: document.getElementById('article')
-  });
+function toggleToc() {
+  var toc = document.querySelector('.toc');
+  if (toc) {
+    toc.classList.toggle('collapsed');
+    toc.classList.toggle('expanded');
+  }
+}
 </script>
-{{ end }}
