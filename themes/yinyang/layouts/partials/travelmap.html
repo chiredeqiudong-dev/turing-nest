@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // 直接添加标记，不使用聚类
     var markerGroup = L.featureGroup();
 
-    var spots = {{ index hugo.Data "travel-spots" | default (slice) | jsonify }};
+    var spots = {{ index .Site.Data "travel-spots" | default (slice) | jsonify }};
 
     if (typeof spots === 'string') {
         try {
