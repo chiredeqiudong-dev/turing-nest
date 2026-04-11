@@ -8,7 +8,7 @@
         <h1 class="post-title">{{ .Title }}</h1>
       </header>
       <div class="post-content markdown-body">
-        {{ .Content }} {{ if hugo.Data.movies }}
+        {{ .Content }} {{ if .Site.Data.movies }}
         <!-- 年份Tab -->
         <div class="movies-tabs">
           <button class="tab-btn" data-year="2025">2025</button>
@@ -17,7 +17,7 @@
 
         <!-- 电影网格 -->
         <div class="movies-grid" id="moviesGrid">
-          {{ range hugo.Data.movies.movies }}
+          {{ range .Site.Data.movies.movies }}
           <div class="movie-card year-{{ .year }}" data-year="{{ .year }}" style="display: none">
             <a href="{{ .url }}" target="_blank" class="movie-link">
               <img src="{{ .poster }}" alt="{{ .title }}" class="movie-poster" loading="lazy"
