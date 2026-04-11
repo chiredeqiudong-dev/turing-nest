@@ -1,8 +1,8 @@
-{{ $curLanguageName := .Site.Language.LanguageName }}
+{{ $curLanguageName := site.Language.LanguageName }}
 <header>
   <div class="header-title-wrapper">
     <div class="header-title">
-      <a href="{{ .Site.LanguagePrefix }}/"
+      <a href="{{ site.LanguagePrefix }}/"
         >{{ or .Site.Params.headTitle .Site.Params.author.name }}</a
       >
     </div>
@@ -18,12 +18,5 @@
     <a href="{{ .link }}" target="_blank">{{ .name }}</a>
   </div>
   {{ end }}
-</div>
-<div class="row">
-  {{ range .Site.Languages -}} {{ if ne .LanguageName $curLanguageName }}
-  <div class="lang-switch col-xs-3 col-xs-offset-9">
-    <a href="/{{ .Lang }}/">{{ .LanguageName }}</a>
-  </div>
-  {{ end }} {{ end }}
 </div>
 <div class="header-line"></div>

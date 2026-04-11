@@ -787,3 +787,48 @@ a:hover {
   color: var(--hover-text);
   text-decoration: none;
 }
+
+/* Table Styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  overflow-x: auto;
+}
+
+table, th, td {
+  border: 1px solid var(--border-color);
+}
+
+th {
+  background-color: rgba(205, 205, 205, 0.3);
+  color: var(--text-color);
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+td {
+  padding: 10px 12px;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(205, 205, 205, 0.15);
+}
+
+tr:hover {
+  background-color: rgba(205, 205, 205, 0.25);
+}
+
+[data-theme="dark"] th {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
