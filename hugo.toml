@@ -1,3 +1,4 @@
+# 部署的时候还需要注意 Cloudflare 使用的 Hugo 版本（尽可能一致）
 baseURL = 'https://blog.turingzy.cn'
 languageCode = 'en-us'
 title = 'TuringNest'
