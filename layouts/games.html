@@ -12,22 +12,22 @@
         </header>
         <div class="post-content markdown-body">
           {{ .Content }}
-          {{ if .Site.Data.games }}
+          {{ if hugo.Data.games }}
           <!-- 统计卡片 -->
           <div class="games-stats">
             <div class="stats-card">
-              <span class="stats-number">{{ .Site.Data.games.total }}</span>
+              <span class="stats-number">{{ hugo.Data.games.total }}</span>
               <span class="stats-label">游戏总数</span>
             </div>
             <div class="stats-card">
-              <span class="stats-number">{{ len (where .Site.Data.games.games "playtime_forever" "gt" 0) }}</span>
+              <span class="stats-number">{{ len (where hugo.Data.games.games "playtime_forever" "gt" 0) }}</span>
               <span class="stats-label">已玩过的游戏</span>
             </div>
           </div>
 
           <!-- 游戏列表 -->
           <div class="games-grid">
-            {{ range .Site.Data.games.games }}
+            {{ range hugo.Data.games.games }}
             <a href="{{ .app_url }}" target="_blank" class="game-card">
               <div class="game-icon">
                 <img src="{{ .img_icon_url }}" alt="{{ .name }}" loading="lazy" />

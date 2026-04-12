@@ -1,5 +1,5 @@
 {{ $targetId := .Get 0 }}
-{{ $novelData := .Site.Data.novels }}
+{{ $novelData := hugo.Data.novels }}
 {{ $found := false }}
 
 {{ if $novelData }}
