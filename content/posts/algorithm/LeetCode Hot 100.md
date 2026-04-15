@@ -731,7 +731,7 @@ class Solution {
 
 - [题解](https://leetcode.cn/problems/spiral-matrix/solutions/3639254/an-ceng-bian-li-ju-zhen-tong-guo-fang-xi-s7y6/?envType=study-plan-v2&envId=top-100-liked)
 - 向右 $[left,rigth]$、向下 $[top+1,down]$、向左 $[right-1,left)$、向上 $[down,top)$
-- 向左和向上遍历为了避免和向右、向下遍历的是同一行同一列，需要满足 $left<right,top<down$
+- 向左和向上遍历为了避免和向右、向下遍历的是同一行同一列，需要满足 `left < right, top < down`
 ### [旋转图像](https://leetcode.cn/problems/rotate-image/)
 
 ```java
