@@ -7,7 +7,7 @@ tags:
 date: 2026-02-20
 ---
 
->Note：[官方教程](https://go.dev/doc/tutorial/)，操作系统：Linux，先看 [A Tour of Go](https://go.dev/tour/list) 效果会好一些，后续关于 Go 的最新消息可以看 [The Go Blog](https://go.dev/blog/)
+>Note：[官方教程](https://go.dev/doc/tutorial/)，操作系统：Linux，先看 [A Tour of Go](https://go.dev/tour/list) 效果会好一些，后续关于 Go 的最新消息可以看 [The Go Blog](https://go.dev/blog/)。粗浅了解，深入请阅读官方文档。
 
 官方为初学者提供的 Go 教程：
 
@@ -130,13 +130,13 @@ func main() {
 
 ## A Tour of Go
 
->Note：[官方指南](https://tour.go-zh.org/list)，基本语法和数据结构；方法和接口；以及 Go 的并发原语
+>Note：[官方指南](https://go.dev/tour/list)，基本语法和数据结构；方法和接口；以及 Go 的并发原语
 
 ### Basics
 
 #### Package、Variable And Function
 
->Note：[Go 的声明语法](https://blog.go-zh.org/gos-declaration-syntax)
+>Note：[Go 的声明语法](https://go.dev/blog/declaration-syntax)
 
 Go 的基本类型
 
@@ -172,11 +172,11 @@ rune // int32 的别名，表示一个 Unicode 码位
 - `if`、`switch` 语句可以在条件表达式前执行一个简短语句（比如变量初始化）
 - `switch` 默认不隐式穿透，每个 case 自带 `break`，可以通过 `fallthrough` 强制穿透
 - `switch` 甚至可以没有条件，相比 `if-then-else` 可以写得更加清晰
-- [defer](https://blog.go-zh.org/defer-panic-and-recover) 推迟调用的函数调用会被压入一个栈中。 当外层函数返回时，被推迟的调用会按照后进先出的顺序调用
+- [defer](https://go.dev/blog/defer-panic-and-recover) 推迟调用的函数调用会被压入一个栈中。 当外层函数返回时，被推迟的调用会按照后进先出的顺序调用
 
 #### Structs、Slices and Maps
 
->Note：[切片的用法和本质](https://blog.go-zh.org/go-slices-usage-and-internals)
+>Note：[切片的用法和本质](https://go.dev/blog/slices-intro)
 
 - Go 拥有指针，指针保存了值的**内存地址**。类型 `*T` 是指向 `T` 类型值的指针，其零值为 `nil`；`&` 操作符会生成一个指向其操作数的指针；`*` 操作符表示指针指向的底层值；Go 没有指针运算
 
@@ -353,6 +353,7 @@ type any = interface{}
 	2. 创建和销毁不需要“跨界”（用户态）
 	3. 上下文切换成本极低，只需要保存最关键的 **3 个寄存器**（PC 程序计数器、SP 栈指针、BP 基址指针）
 - Channel 是 Go 语言里一条带有强类型约束且并发安全的 “数据传送带”，Goroutine 们借由它不仅能安全地互传数据，还能自然而然地完成彼此间的同步与等待
+- Channel：不要通过共享内存来通信，而要通过通信来共享内存
 - Channel 创建方式：`ch := make(chan T)`，默认情况下，发送和接收操作在另一端准备好之前都会阻塞
 - Channel 可以是**带缓冲的**，比如：`ch := make(chan int, 100)`，仅当 Channel 的缓冲区填满后，向其发送数据时才会阻塞；当缓冲区为空时，接受方会阻塞
 
@@ -375,4 +376,4 @@ type any = interface{}
 
 - 当 `select` 语句中所有的 Channel 操作都处于被阻塞 (Blocked) 状态时，`default` 分支就会执行
 
-- Go 标准库中提供了 [sync.Mutex](https://go-zh.org/pkg/sync/#Mutex) 互斥锁类型及其两个方法，通过在代码前调用 `Lock()`，在代码后调用 `Unlock()` 来保证一段代码的互斥执行
+- Go 标准库中提供了 [sync.Mutex](https://pkg.go.dev/sync#Mutex) 互斥锁类型及其两个方法，通过在代码前调用 `Lock()`，在代码后调用 `Unlock()` 来保证一段代码的互斥执行
