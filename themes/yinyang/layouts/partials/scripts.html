@@ -48,4 +48,81 @@ function goBackOrHome() {
     window.location.href = '/';
   }
 }
+
+// Image lightbox functionality
+document.addEventListener('DOMContentLoaded', function() {
+  // Create modal
+  const modal = document.createElement('div');
+  modal.className = 'image-modal';
+  modal.innerHTML = `
+    <div class="image-modal-content">
+      <img class="image-modal-img" src="" alt="">
+      <div class="image-modal-controls">
+        <span class="zoom-percentage" id="zoomPercent">100%</span>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  let currentZoom = 100;
+  let originalWidth, originalHeight;
+  const modalImg = modal.querySelector('.image-modal-img');
+  const zoomPercentEl = modal.querySelector('#zoomPercent');
+
+  function updateZoom() {
+    const width = (originalWidth * currentZoom) / 100;
+    const height = (originalHeight * currentZoom) / 100;
+    modalImg.style.width = width + 'px';
+    modalImg.style.height = height + 'px';
+    zoomPercentEl.textContent = currentZoom + '%';
+  }
+
+  function zoom(delta) {
+    currentZoom = Math.max(50, Math.min(300, currentZoom + delta));
+    updateZoom();
+  }
+
+  const images = document.querySelectorAll('.post-content img');
+  images.forEach(img => {
+    img.addEventListener('click', function() {
+      modalImg.src = this.src;
+      
+      // Get original dimensions
+      const tempImg = new Image();
+      tempImg.onload = function() {
+        originalWidth = this.naturalWidth;
+        originalHeight = this.naturalHeight;
+        currentZoom = 100;
+        updateZoom();
+      };
+      tempImg.src = this.src;
+      
+      modal.classList.add('active');
+    });
+  });
+
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+    }
+  });
+
+  // Keyboard and mouse wheel controls
+  document.addEventListener('keydown', function(e) {
+    if (!modal.classList.contains('active')) return;
+    
+    if (e.key === 'Escape') {
+      modal.classList.remove('active');
+    }
+  });
+
+  // Mouse wheel zoom
+  modal.addEventListener('wheel', function(e) {
+    if (!modal.classList.contains('active')) return;
+    e.preventDefault();
+    
+    const delta = e.deltaY > 0 ? -10 : 10;
+    zoom(delta);
+  }, { passive: false });
+});
 </script>
