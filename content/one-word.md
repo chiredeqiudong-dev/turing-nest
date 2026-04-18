@@ -1,7 +1,6 @@
 ---
 title: OneWord
 slug: one-word
-categories: 杂谈
 date: 2025-10-11
 ---
 
