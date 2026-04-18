@@ -1,6 +1,7 @@
 ---
 title: BestFinds
 slug: best-finds
+categories: 杂谈
 date: 2025-10-28
 ---
 
