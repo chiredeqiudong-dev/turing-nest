@@ -1,6 +1,6 @@
 ---
 title: Agent 系列之评估
-slug: agent-series-evaluation-reflection
+slug: agent-series-evaluation
 categories: 后端开发
 date: 2026-05-17
 ---
