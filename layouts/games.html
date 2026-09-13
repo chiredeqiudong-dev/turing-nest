@@ -13,12 +13,8 @@
         <div class="post-content markdown-body">
           {{ .Content }}
           {{ if hugo.Data.games }}
-          {{ $games := hugo.Data.games.games }}
-          {{ $played := where $games "playtime_forever" "gt" 0 }}
-          {{ $unplayed := where $games "playtime_forever" "eq" 0 }}
-
-          {{ $totalHours := 0.0 }}
-          {{ range $played }}{{ $totalHours = add $totalHours .playtime_forever }}{{ end }}
+          {{ $played := hugo.Data.games.played_games }}
+          {{ $unplayed := hugo.Data.games.unplayed_games }}
 
           <!-- 账目式统计条 -->
           <div class="steam-ledger">
@@ -34,7 +30,7 @@
               <span class="ledger-label">玩过</span>
             </div>
             <div class="ledger-item">
-              <span class="ledger-num">{{ printf "%.0f" $totalHours }}</span>
+              <span class="ledger-num">{{ printf "%.0f" hugo.Data.games.total_playtime_hours }}</span>
               <span class="ledger-label">总时长（小时）</span>
             </div>
           </div>

@@ -1,6 +1,7 @@
 {
-  "total": 45,
-  "games": [
+  "total": 49,
+  "total_playtime_hours": 513.8,
+  "played_games": [
     {
       "name": "Counter-Strike 2",
       "appid": 730,
@@ -77,6 +78,19 @@
       }
     },
     {
+      "name": "Resident Evil 7 Biohazard",
+      "appid": 418370,
+      "playtime_forever": 6.7,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/418370/675cd2fbaae3c2a74a0c7e9eea71e969ff90d6bb.jpg",
+      "cover_url": "https://cdn.cloudflare.steamstatic.com/steam/apps/418370/header.jpg",
+      "last_played": "2026-09-12 19:27:14",
+      "app_url": "https://store.steampowered.com/app/418370/",
+      "achievements": {
+        "achieved": 20,
+        "total": 58
+      }
+    },
+    {
       "name": "Resident Evil 3",
       "appid": 952060,
       "playtime_forever": 5.6,
@@ -90,7 +104,7 @@
       }
     },
     {
-      "name": "The Witcher 3: Wild Hunt",
+      "name": "The Witcher 3: Wild Hunt - Complete Edition",
       "appid": 292030,
       "playtime_forever": 4.0,
       "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/292030/7b52d11edee478d652ef4e7103e00644bed2c74c.jpg",
@@ -188,19 +202,6 @@
       }
     },
     {
-      "name": "Resident Evil 7 Biohazard",
-      "appid": 418370,
-      "playtime_forever": 1.2,
-      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/418370/675cd2fbaae3c2a74a0c7e9eea71e969ff90d6bb.jpg",
-      "cover_url": "https://cdn.cloudflare.steamstatic.com/steam/apps/418370/header.jpg",
-      "last_played": "2026-07-09 21:45:58",
-      "app_url": "https://store.steampowered.com/app/418370/",
-      "achievements": {
-        "achieved": 4,
-        "total": 58
-      }
-    },
-    {
       "name": "Street Fighter™ 6",
       "appid": 1364780,
       "playtime_forever": 1.2,
@@ -261,7 +262,9 @@
         "achieved": 0,
         "total": 24
       }
-    },
+    }
+  ],
+  "unplayed_games": [
     {
       "name": "Left 4 Dead",
       "appid": 500,
@@ -312,6 +315,19 @@
       }
     },
     {
+      "name": "Resident Evil Revelations",
+      "appid": 222480,
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/222480/5725845fe83f846a04135034c5be55aef008c725.jpg",
+      "cover_url": "https://cdn.cloudflare.steamstatic.com/steam/apps/222480/header.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/222480/",
+      "achievements": {
+        "achieved": 0,
+        "total": 50
+      }
+    },
+    {
       "name": "Dying Light",
       "appid": 239140,
       "playtime_forever": 0.0,
@@ -347,7 +363,46 @@
       "app_url": "https://store.steampowered.com/app/282800/",
       "achievements": {
         "achieved": 0,
-        "total": 359
+        "total": 365
+      }
+    },
+    {
+      "name": "Resident Evil Revelations 2",
+      "appid": 287290,
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/287290/0ec692bbc91bbff0b455faef6cb2b8a37bbbca93.jpg",
+      "cover_url": "https://cdn.cloudflare.steamstatic.com/steam/apps/287290/header.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/287290/",
+      "achievements": {
+        "achieved": 0,
+        "total": 43
+      }
+    },
+    {
+      "name": "Resident Evil",
+      "appid": 304240,
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/304240/a60a960c76f26ab81773d4f2d372836db37a0012.jpg",
+      "cover_url": "https://cdn.cloudflare.steamstatic.com/steam/apps/304240/header.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/304240/",
+      "achievements": {
+        "achieved": 0,
+        "total": 44
+      }
+    },
+    {
+      "name": "Resident Evil 0",
+      "appid": 339340,
+      "playtime_forever": 0.0,
+      "img_icon_url": "https://media.steampowered.com/steamcommunity/public/images/apps/339340/db120ea03830d200f5ba41567b2dd4556aa33705.jpg",
+      "cover_url": "https://cdn.cloudflare.steamstatic.com/steam/apps/339340/header.jpg",
+      "last_played": "",
+      "app_url": "https://store.steampowered.com/app/339340/",
+      "achievements": {
+        "achieved": 0,
+        "total": 47
       }
     },
     {
