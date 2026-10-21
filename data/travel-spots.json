@@ -16,7 +16,7 @@
     "posts": [
       {
         "title": "越秀公园游记",
-        "url": "/posts/a-travel-journal-of-yuexiu-park/"
+        "url": "/posts/a-travel-journal-of-yuexiu-park"
       }
     ]
   },
@@ -29,11 +29,11 @@
     "posts": [
       {
         "title": "湛江之湖光岩",
-        "url": "/posts/huguangyan-in-zhanjiang/"
+        "url": "/posts/huguangyan-in-zhanjiang"
       },
       {
         "title": "湛江之金沙湾",
-        "url": "/posts/jinsha-bay-in-zhanjiang/"
+        "url": "/posts/jinsha-bay-in-zhanjiang"
       }
     ]
   },
@@ -46,11 +46,11 @@
     "posts": [
       {
         "title": "深圳游记之人才公园与俞欣书店",
-        "url": "/posts/shenzhen-travelogue-talent-park-and-yu-xin-Bookstore/"
+        "url": "/posts/shenzhen-travelogue-talent-park-and-yu-xin-Bookstore"
       },
       {
         "title": "腾讯实习总结",
-        "url": "/posts/summary-of-Internship-at-tencent/"
+        "url": "/posts/summary-of-Internship-at-tencent"
       }
     ]
   },
@@ -63,7 +63,7 @@
     "posts": [
       {
         "title": "腾讯实习总结",
-        "url": "/posts/summary-of-Internship-at-tencent/"
+        "url": "/posts/summary-of-Internship-at-tencent"
       }
     ]
   },
@@ -76,7 +76,37 @@
     "posts": [
       {
         "title": "初见上海",
-        "url": "/posts/hello-shanghai/"
+        "url": "/posts/hello-shanghai"
+      },
+      {
+        "title": "正是江南好风景-上海",
+        "url": "/posts/fair-scenery-of-jiangnan-shanghai"
+      }
+    ]
+  },
+  {
+    "name": "苏州",
+    "lat": 31.2989,
+    "lon": 120.5853,
+    "adcode": 320500,
+    "date": "2026-10",
+    "posts": [
+      {
+        "title": "正是江南好风景-苏州",
+        "url": "/posts/fair-scenery-of-jiangnan-suzhou"
+      }
+    ]
+  },
+  {
+    "name": "杭州",
+    "lat": 30.2741,
+    "lon": 120.1551,
+    "adcode": 330100,
+    "date": "2026-10",
+    "posts": [
+      {
+        "title": "正是江南好风景-杭州",
+        "url": "/posts/fair-scenery-of-jiangnan-hangzhou"
       }
     ]
   }

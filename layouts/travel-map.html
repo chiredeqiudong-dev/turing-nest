@@ -11,7 +11,7 @@
         {{ .Content }}
         {{ $spots := index hugo.Data "travel-spots" | default (slice) }}
 
-        <p class="travel-intro">到过 <b>{{ len $spots }}</b> 个地方，地图上的每一个足迹都是一段记忆。</p>
+        <p class="travel-intro">点亮 <b>{{ len $spots }}</b> 座城市，每一个足迹都是一段难忘的记忆。</p>
 
         <div id="travel-map" style="width: 100%; height: 65vh; min-height: 460px;"></div>
 
