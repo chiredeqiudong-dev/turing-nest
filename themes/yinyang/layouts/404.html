@@ -1,7 +1,31 @@
-{{ define "main"}}
-    <main id="main">
-      <div>
-       <h1 id="title"><a href="{{ "/" | relURL }}">Go Home</a></h1>
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "zh-CN" }}">
+{{ partial "head.html" . }}
+
+<body>
+  <article class="post {{ .Site.Language.LanguageName }}" id="article">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="site-header">
+          {{ partial "header.html" . }}
+        </div>
+
+        <div class="post-content markdown-body" style="text-align: center; padding: 60px 0;">
+          <h1 style="font-size: 5rem; line-height: 1; margin-bottom: 1rem; font-family: 'Bungee Shade', sans-serif;">404</h1>
+          <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 0.8rem;">
+            抱歉，您访问的页面不存在或已被移除。
+          </p>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 0;">
+            如有疑问，欢迎邮件联系 <a href="mailto:turingzy@gmail.com">turingzy@gmail.com</a>
+          </p>
+        </div>
+
+        {{ partial "footer.html" . }}
       </div>
-    </main>
-{{ end }}
+    </div>
+  </article>
+
+  {{ partial "scripts.html" . }}
+</body>
+
+</html>

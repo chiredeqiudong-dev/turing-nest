@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "zh-CN" }}">
+{{ partial "head.html" . }}
+
+<body>
+  <article class="posts">
+    <div class="row">
+      <div class="col-xs-12">
+        {{ partial "header.html" . }}
+
+        <h1 class="taxonomy-term">Categories</h1>
+
+        <div class="categories-cloud">
+          {{ range .Data.Terms.ByCount }}
+          <div class="category-item">
+            <a href="{{ .Page.RelPermalink }}" class="category-link">{{ .Page.Title | default .Term }}</a>
+            <span class="category-count">({{ .Count }})</span>
+          </div>
+          {{ end }}
+        </div>
+
+        {{ partial "footer.html" . }}
+      </div>
+    </div>
+  </article>
+
+  {{ partial "scripts.html" . }}
+</body>
+
+</html>

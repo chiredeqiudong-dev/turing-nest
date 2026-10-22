@@ -1,6 +1,6 @@
 # 部署的时候还需要注意 Cloudflare 使用的 Hugo 版本（尽可能一致）
 baseURL = 'https://blog.turingzy.cn'
-languageCode = 'en-us'
+languageCode = 'zh-CN'
 title = 'TuringNest'
 theme = 'yinyang'
 license = "MIT"
@@ -25,7 +25,7 @@ tags = [
       [markup.goldmark.extensions.passthrough]
         enable = true
         [markup.goldmark.extensions.passthrough.delimiters]
-          # block = [['$', '$'],['$$','$$']]
+          block = [['$$', '$$']]
           inline = [['$', '$']]
   [markup.highlight]
     codeFences = true
@@ -38,15 +38,30 @@ tags = [
     tabWidth = 4
 
 [outputs]
-  home = ["html","rss"]
+  home = ["html", "rss", "json"]
   section = ["html"]
   taxonomy = ["html"]
   term = ["html"]
+
+[related]
+  includeNewer = true
+  threshold = 80
+  toLower = false
+  [[related.indices]]
+    name = "categories"
+    weight = 100
+  [[related.indices]]
+    name = "tags"
+    weight = 80
+  [[related.indices]]
+    name = "date"
+    weight = 10
 
 [params]
   mainSections = ["posts"]
   headTitle = "Yang Zhang"
   description = "「I came, I saw, I conquered」"
+  favicon = "/favicon.ico"
   lazyImage = true
   math = true
   siteStartDate = "2025-06-01"
@@ -73,6 +88,9 @@ tags = [
 [[params.socials]]
   name = "Home"
   link = "https://turingzy.cn/"
+[[params.socials]]
+  name = "Categories"
+  link = "/categories/"
 [[params.socials]]
   name = "Games"
   link = "/games/"

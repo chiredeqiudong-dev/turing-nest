@@ -1,10 +1,13 @@
-{{ $related := (where site.RegularPages "Type" "in" site.Params.mainSections).Related . | first 3 }}
+{{ $related := (where site.RegularPages "Type" "in" site.Params.mainSections).Related . | first 5 }}
 {{ with $related }}
 <div class="related-content">
-  <h3>Related Posts</h3>
-  <ul>
+  <h3>Recommended Posts</h3>
+  <ul class="related-list">
     {{ range . }}
-    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    <li class="related-item">
+      <time class="related-date">{{ .Date.Format "2006-01-02" }}</time>
+      <a href="{{ .RelPermalink }}" class="related-link">{{ .Title }}</a>
+    </li>
     {{ end }}
   </ul>
 </div>

@@ -1,0 +1,208 @@
+<div id="search-modal" class="search-modal" aria-hidden="true" style="display: none;">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-container" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="search-header">
+      <svg class="search-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="search-input" class="search-input" placeholder="搜索文章标题、分类、内容..." autocomplete="off" spellcheck="false">
+      <button type="button" id="search-close" class="search-close-btn" aria-label="关闭搜索">
+        <kbd>ESC</kbd>
+      </button>
+    </div>
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  let searchIndex = null;
+  let isLoading = false;
+
+  const modal = document.getElementById('search-modal');
+  const backdrop = document.getElementById('search-backdrop');
+  const input = document.getElementById('search-input');
+  const closeBtn = document.getElementById('search-close');
+  const resultsContainer = document.getElementById('search-results');
+  const searchToggle = document.getElementById('search-toggle');
+
+  if (!modal || !input) return;
+
+  function loadIndex(callback) {
+    if (searchIndex) {
+      if (callback) callback();
+      return;
+    }
+    if (isLoading) return;
+    isLoading = true;
+    fetch('{{ "index.json" | relLangURL }}')
+      .then(res => res.json())
+      .then(data => {
+        searchIndex = data;
+        isLoading = false;
+        if (callback) callback();
+      })
+      .catch(err => {
+        isLoading = false;
+        resultsContainer.innerHTML = '<div class="search-hint">加载索引失败，请稍后重试</div>';
+        console.error('Search index load error:', err);
+      });
+  }
+
+  function openSearch() {
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    loadIndex(function() {
+      input.focus();
+      if (input.value.trim()) {
+        executeSearch(input.value.trim());
+      } else {
+        resultsContainer.innerHTML = '';
+      }
+    });
+    setTimeout(() => input.focus(), 50);
+  }
+
+  function closeSearch() {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    input.value = '';
+    resultsContainer.innerHTML = '';
+  }
+
+  function toggleSearch() {
+    if (modal.style.display === 'block') {
+      closeSearch();
+    } else {
+      openSearch();
+    }
+  }
+
+  if (searchToggle) {
+    searchToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      toggleSearch();
+    });
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeSearch);
+  if (backdrop) backdrop.addEventListener('click', closeSearch);
+
+  // Shortcut: Esc to close search modal
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.style.display === 'block') {
+      e.preventDefault();
+      closeSearch();
+    }
+  });
+
+  // Close search modal when clicking any search result link
+  if (resultsContainer) {
+    resultsContainer.addEventListener('click', function(e) {
+      const link = e.target.closest('.search-result-link');
+      if (link) {
+        closeSearch();
+      }
+    });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function highlightMatches(text, keywords) {
+    let escaped = escapeHtml(text);
+    if (!keywords || keywords.length === 0) return escaped;
+    keywords.forEach(kw => {
+      if (!kw) return;
+      const regex = new RegExp('(' + kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      escaped = escaped.replace(regex, '<mark class="search-highlight">$1</mark>');
+    });
+    return escaped;
+  }
+
+  function executeSearch(query) {
+    if (!searchIndex) return;
+    const keywords = query.toLowerCase().split(/\s+/).filter(k => k.length > 0);
+    if (keywords.length === 0) {
+      resultsContainer.innerHTML = '';
+      return;
+    }
+
+    const matched = [];
+    searchIndex.forEach(item => {
+      const title = (item.title || '').toLowerCase();
+      const category = (item.category || '').toLowerCase();
+      const summary = (item.summary || '').toLowerCase();
+
+      let score = 0;
+      let allMatch = true;
+
+      keywords.forEach(kw => {
+        let kwMatched = false;
+        if (title.includes(kw)) {
+          score += 15;
+          kwMatched = true;
+        }
+        if (category.includes(kw)) {
+          score += 8;
+          kwMatched = true;
+        }
+        if (summary.includes(kw)) {
+          score += 2;
+          kwMatched = true;
+        }
+        if (!kwMatched) allMatch = false;
+      });
+
+      if (allMatch && score > 0) {
+        matched.push({ item, score });
+      }
+    });
+
+    matched.sort((a, b) => b.score - a.score);
+
+    if (matched.length === 0) {
+      resultsContainer.innerHTML = '<div class="search-hint">未找到与 “' + escapeHtml(query) + '” 相关的文章</div>';
+      return;
+    }
+
+    const maxResults = 10;
+    const limited = matched.slice(0, maxResults);
+    let html = '<ul class="search-results-list" id="search-results-list">';
+    limited.forEach((res, index) => {
+      const item = res.item;
+      const highlightedTitle = highlightMatches(item.title, keywords);
+      const highlightedSummary = highlightMatches(item.summary, keywords);
+      const categoryBadge = item.category ? '<span class="search-result-category">#' + escapeHtml(item.category) + '</span>' : '';
+      html += '<li class="search-result-item">';
+      html += '  <a href="' + item.permalink + '" class="search-result-link">';
+      html += '    <div class="search-result-title">' + highlightedTitle + '</div>';
+      html += '    <div class="search-result-meta">';
+      html += '      <span class="search-result-date">' + item.date + '</span>';
+      if (categoryBadge) html += ' · ' + categoryBadge;
+      html += '    </div>';
+      if (item.summary) {
+        html += '    <div class="search-result-snippet">' + highlightedSummary + '</div>';
+      }
+      html += '  </a>';
+      html += '</li>';
+    });
+    html += '</ul>';
+    resultsContainer.innerHTML = html;
+  }
+
+  input.addEventListener('input', function() {
+    executeSearch(input.value.trim());
+  });
+})();
+</script>

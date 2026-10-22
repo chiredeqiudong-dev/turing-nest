@@ -1,5 +1,8 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "zh-CN" }}">
 {{ partial "head.html" . }}
 
+<body>
 <article class="post {{ .Site.Language.LanguageName }}" id="article">
   <div class="row">
     <div class="col-xs-12">
@@ -387,3 +390,5 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 {{ partial "scripts.html" . }}
+</body>
+</html>

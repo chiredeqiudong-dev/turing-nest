@@ -59,6 +59,8 @@ function goBackOrHome() {
     if (!rawHref || rawHref.charAt(0) === '#' || rawHref.indexOf('javascript:') === 0) return false;
     var hostname = link.hostname;
     if (!hostname) return false;
+    // Allow current hostname (localhost, preview domain, etc.)
+    if (hostname === window.location.hostname) return false;
     // Allow same-site links (blog.turingzy.cn, turingzy.cn, etc.)
     if (hostname === siteDomain || hostname.slice(-('.' + siteDomain).length) === '.' + siteDomain) return false;
     return true;

@@ -31,28 +31,48 @@
       `站点运行时间：${days} 天 ${hours} 时 ${minutes} 分 ${seconds} 秒`;
   }
 
-  // 初始加载时更新
+  // 初始加载时更新并设置前台定时器（切到后台标签页时暂停以节省能耗）
   updateRunningTime();
-  // 每秒更新一次
-  setInterval(updateRunningTime, 1000);
+  let runningTimer = setInterval(updateRunningTime, 1000);
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+      clearInterval(runningTimer);
+    } else {
+      updateRunningTime();
+      runningTimer = setInterval(updateRunningTime, 1000);
+    }
+  });
 
   // 主题切换（View Transitions API + circle-blur-top-left）
   const themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
-    const themeIcon = themeToggle.querySelector('i');
     let switching = false;
+
+    function updateGiscusTheme(theme) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (!iframe) return;
+      const giscusTheme = theme === 'dark' ? 'transparent_dark' : 'light';
+      iframe.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: giscusTheme } } },
+        'https://giscus.app'
+      );
+    }
 
     function setTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('theme', theme);
-      if (themeIcon) {
-        themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      const sunIcon = themeToggle.querySelector('.theme-icon-sun');
+      const moonIcon = themeToggle.querySelector('.theme-icon-moon');
+      if (sunIcon && moonIcon) {
+        sunIcon.style.display = theme === 'dark' ? 'inline-flex' : 'none';
+        moonIcon.style.display = theme === 'dark' ? 'none' : 'inline-flex';
       }
+      updateGiscusTheme(theme);
     }
 
     function initTheme() {
-      const savedTheme = localStorage.getItem('theme');
-      setTheme(savedTheme || 'light');
+      const currentTheme = document.documentElement.getAttribute('data-theme') || localStorage.getItem('theme') || 'light';
+      setTheme(currentTheme);
     }
 
     themeToggle.addEventListener('click', (e) => {
@@ -102,3 +122,5 @@
     });
   })();
 </script>
+
+{{ partial "search.html" . }}

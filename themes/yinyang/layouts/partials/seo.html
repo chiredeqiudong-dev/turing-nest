@@ -1,7 +1,7 @@
 <script type="application/ld+json">
   {
       "@context" : "http://schema.org",
-      "@type" : "BlogPosting",
+      "@type" : "{{ if .IsHome }}WebSite{{ else }}BlogPosting{{ end }}",
       "mainEntityOfPage": {
            "@type": "WebPage",
            "@id": "{{ .Site.BaseURL }}"
@@ -14,7 +14,7 @@
       {{- else -}}
       "description" : "{{ default .Summary .Description | plainify }}",
       {{- end }}
-      "inLanguage" : "en-US",
+      "inLanguage" : "{{ .Site.LanguageCode | default "zh-CN" }}",
       "author" : "{{ .Site.Params.author.name }}",
       "creator" : "{{ .Site.Params.author.name }}",
       "publisher": "{{ .Site.Params.author.name }}",
@@ -24,6 +24,6 @@
       "datePublished": "{{ .Date }}",
       "dateModified" : "{{ .Date }}",
       "url" : "{{ .Permalink }}",
-      "keywords" : [ {{ if isset .Params "tags" }}{{ range .Params.tags }}"{{ . }}",{{ end }}{{ end }} ]
+      "keywords" : {{ with .Params.tags }}{{ . | jsonify }}{{ else }}[]{{ end }}
   }
 </script>

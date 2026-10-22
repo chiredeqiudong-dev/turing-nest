@@ -21,8 +21,8 @@ There is no package manager, Makefile, linter, or test suite configured. A succe
 - `content/posts/<category>/` contains posts grouped into categories such as algorithm, backend-development, copy, film-review, others, and travel.
 - `content/about.md`, `content/games.md`, and `content/travel-map.md` are the current top-level content pages.
 - `data/` contains `games.json`, `travel-spots.json`, and `china-provinces.json`, which provide data to the games page and travel map.
-- `layouts/games.html` and `layouts/travel-map.html` are site-level page overrides.
-- `themes/yinyang/` contains the theme and the local customizations made inside its partials.
+- `themes/yinyang/layouts/` contains all page layouts and templates (including `games.html`, `travel-map.html`, `404.html`, `terms.html`, and `index.json`).
+- `themes/yinyang/` contains the full theme, styling, and customizations.
 - `static/` contains files copied directly to the generated site.
 - `archetypes/default.md` defines the front matter template for new posts.
 
