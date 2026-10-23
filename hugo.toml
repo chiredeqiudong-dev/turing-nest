@@ -83,7 +83,7 @@ tags = [
   giscus_category_id = "DIC_kwDOPTLco84Ctb-O"
 [params.author]
   name = "Zhang Yang"
-  email = 'email@turingzy.cn'
+  email = 'turingzy@gmail.com'
   homepage = "/about/"
 [[params.socials]]
   name = "Home"
