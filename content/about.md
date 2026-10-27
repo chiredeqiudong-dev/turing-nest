@@ -4,7 +4,7 @@ slug: about
 date: 2025-08-03
 ---
 
-Hi, I'm [ZhangYang](https://github.com/chiredeqiudong-dev) (2005 · China).
+Hi, I'm [ZhangYang](https://github.com/turingzy) (2005 · China).
 
 I am a **programmer**, and here I will share some of my experiences, ideas, and things I create.
 
